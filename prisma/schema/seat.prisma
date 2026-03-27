@@ -1,0 +1,13 @@
+model Seat {
+  id       String   @id @default(uuid())
+  bus      Bus      @relation(fields: [busId], references: [id], onDelete: Cascade)
+  busId    String
+  number   String
+  type     String
+  row      Int
+  column   Int
+
+  seatLocks SeatLock[]
+
+  @@map("seats")
+}

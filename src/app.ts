@@ -5,6 +5,8 @@ import express, { Application, Request, Response } from "express";
 import path from "path";
 import qs from "qs";
 import { auth } from "./lib/auth";
+import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
+import { notFound } from "./app/middlewares/notFound";
 
 
 const app: Application = express();
@@ -53,8 +55,8 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 // ======================== Global Error Handler / Not Found Handler / Other Middleware ========================
-// app.use(globalErrorHandler);
-// app.use(notFound);
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;
 

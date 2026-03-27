@@ -1,0 +1,14 @@
+model Route {
+  id                   String    @id @default(uuid())
+  sourceCity           String
+  destinationCity      String
+  distanceKm           Float
+  estimatedTimeMinutes Int
+  stops                Json
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  schedules            Schedule[]
+
+  @@map("routes")
+}

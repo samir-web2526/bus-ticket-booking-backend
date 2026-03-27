@@ -1,0 +1,18 @@
+model Schedule {
+  id              String    @id @default(uuid())
+  bus             Bus       @relation(fields: [busId], references: [id], onDelete: Cascade)
+  busId           String
+  route           Route     @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId         String
+  departure       DateTime
+  arrival         DateTime
+  fare            Float
+  status          String    @default("scheduled")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  bookings        Booking[]
+  seatLocks       SeatLock[]
+
+  @@map("schedules")
+}

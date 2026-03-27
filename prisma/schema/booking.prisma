@@ -1,0 +1,13 @@
+model Booking {
+  id         String        @id @default(uuid())
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  schedule   Schedule      @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  scheduleId String
+  status     BookingStatus @default(PENDING)
+  totalFare  Float
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@map("bookings")
+}

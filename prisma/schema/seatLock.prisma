@@ -1,0 +1,13 @@
+model SeatLock {
+  id         String   @id @default(uuid())
+  seat       Seat     @relation(fields: [seatId], references: [id], onDelete: Cascade)
+  seatId     String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  scheduleId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  lockedAt   DateTime @default(now())
+  expiresAt  DateTime
+
+  @@map("seat_locks")
+}

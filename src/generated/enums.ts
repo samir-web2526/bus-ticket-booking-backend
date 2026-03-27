@@ -9,7 +9,30 @@
 * 🟢 You can import this file directly.
 */
 
+export const UserRole = {
+  ADMIN: 'ADMIN',
+  OPERATOR: 'OPERATOR',
+  PASSENGER: 'PASSENGER'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const BusType = {
+  AC: 'AC',
+  NON_AC: 'NON_AC',
+  SLEEPER: 'SLEEPER',
+  DOUBLE_DECKER: 'DOUBLE_DECKER'
+} as const
+
+export type BusType = (typeof BusType)[keyof typeof BusType]
+
+
+export const BookingStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
