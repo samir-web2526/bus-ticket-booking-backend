@@ -1,6 +1,12 @@
-import { MAX_UPLOAD_SIZE } from '../../constants';
-// import { z } from 'zod';
+import { z } from 'zod';
 
-export const bookingValidationSchema = {
-    // Add validation schemas here
-    };
+const createBookingValidationSchema = z.object({
+  body: z.object({
+    scheduleId: z.string().min(1, 'Schedule ID is required' ).uuid(),
+    totalFare: z.number().positive('Total fare must be a positive number'),
+  }),
+});
+
+export const BookingValidation = {
+  createBookingValidationSchema,
+};

@@ -1,3 +1,8 @@
 export type TSeat = {
-    // Add interface properties here
-    };
+  busId: string;
+  number: string;
+  type: string;
+  row: number;
+  column: number;
+};
+

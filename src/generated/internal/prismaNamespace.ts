@@ -385,6 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  OperatorProfile: 'OperatorProfile',
+  PassengerProfile: 'PassengerProfile',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
@@ -409,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "booking" | "bus" | "route" | "schedule" | "seat" | "seatLock"
+    modelProps: "user" | "operatorProfile" | "passengerProfile" | "session" | "account" | "verification" | "booking" | "bus" | "route" | "schedule" | "seat" | "seatLock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -484,6 +486,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    OperatorProfile: {
+      payload: Prisma.$OperatorProfilePayload<ExtArgs>
+      fields: Prisma.OperatorProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OperatorProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OperatorProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.OperatorProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OperatorProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        findMany: {
+          args: Prisma.OperatorProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>[]
+        }
+        create: {
+          args: Prisma.OperatorProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        createMany: {
+          args: Prisma.OperatorProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OperatorProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.OperatorProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        update: {
+          args: Prisma.OperatorProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.OperatorProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OperatorProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OperatorProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.OperatorProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatorProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.OperatorProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOperatorProfile>
+        }
+        groupBy: {
+          args: Prisma.OperatorProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OperatorProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OperatorProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OperatorProfileCountAggregateOutputType> | number
+        }
+      }
+    }
+    PassengerProfile: {
+      payload: Prisma.$PassengerProfilePayload<ExtArgs>
+      fields: Prisma.PassengerProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PassengerProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PassengerProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.PassengerProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PassengerProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>
+        }
+        findMany: {
+          args: Prisma.PassengerProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>[]
+        }
+        create: {
+          args: Prisma.PassengerProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>
+        }
+        createMany: {
+          args: Prisma.PassengerProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PassengerProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.PassengerProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>
+        }
+        update: {
+          args: Prisma.PassengerProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.PassengerProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PassengerProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PassengerProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.PassengerProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassengerProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.PassengerProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePassengerProfile>
+        }
+        groupBy: {
+          args: Prisma.PassengerProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PassengerProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PassengerProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PassengerProfileCountAggregateOutputType> | number
         }
       }
     }
@@ -1200,12 +1350,37 @@ export const UserScalarFieldEnum = {
   phone: 'phone',
   profileImage: 'profileImage',
   role: 'role',
+  status: 'status',
   isVerified: 'isVerified',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const OperatorProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyName: 'companyName',
+  tradeLicense: 'tradeLicense',
+  nid: 'nid',
+  address: 'address'
+} as const
+
+export type OperatorProfileScalarFieldEnum = (typeof OperatorProfileScalarFieldEnum)[keyof typeof OperatorProfileScalarFieldEnum]
+
+
+export const PassengerProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  gender: 'gender',
+  dateOfBirth: 'dateOfBirth',
+  emergencyContact: 'emergencyContact'
+} as const
+
+export type PassengerProfileScalarFieldEnum = (typeof PassengerProfileScalarFieldEnum)[keyof typeof PassengerProfileScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -1410,6 +1585,20 @@ export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'UserStatus'
+ */
+export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'UserStatus[]'
+ */
+export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -1595,6 +1784,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  operatorProfile?: Prisma.OperatorProfileOmit
+  passengerProfile?: Prisma.PassengerProfileOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit

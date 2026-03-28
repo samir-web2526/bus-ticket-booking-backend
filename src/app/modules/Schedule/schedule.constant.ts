@@ -1,3 +1,1 @@
-export const ScheduleSearchableFields = [
-    // Add searchable fields here
-    ];
+export const scheduleSearchableFields = ['departure', 'arrival'];

@@ -1,6 +1,12 @@
-import { MAX_UPLOAD_SIZE } from '../../constants';
-// import { z } from 'zod';
+import { z } from 'zod';
 
-export const seatLockValidationSchema = {
-    // Add validation schemas here
-    };
+const lockSeatsValidationSchema = z.object({
+  body: z.object({
+    seatIds: z.array(z.string().uuid()).min(1, 'At least one seat must be selected'),
+    scheduleId: z.string().min(1, 'Schedule ID is required').uuid(),
+  }),
+});
+
+export const SeatLockValidation = {
+  lockSeatsValidationSchema,
+};

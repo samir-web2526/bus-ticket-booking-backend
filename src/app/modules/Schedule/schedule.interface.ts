@@ -1,3 +1,8 @@
 export type TSchedule = {
-    // Add interface properties here
-    };
+  busId: string;
+  routeId: string;
+  departure: string;
+  arrival: string;
+  fare: number;
+  status?: string;
+};

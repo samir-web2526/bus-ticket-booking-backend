@@ -1,3 +1,5 @@
 export type TSeatLock = {
-    // Add interface properties here
-    };
+  seatIds: string[];
+  scheduleId: string;
+};
+

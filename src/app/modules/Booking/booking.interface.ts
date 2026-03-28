@@ -1,3 +1,9 @@
+import { BookingStatus } from '../../../generated/enums';
+
 export type TBooking = {
-    // Add interface properties here
-    };
+  userId: string;
+  scheduleId: string;
+  totalFare: number;
+  status: BookingStatus;
+};
+

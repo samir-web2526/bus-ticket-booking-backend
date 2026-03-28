@@ -1,3 +1,1 @@
-export const RouteSearchableFields = [
-    // Add searchable fields here
-    ];
+export const routeSearchableFields = ['sourceCity', 'destinationCity'];

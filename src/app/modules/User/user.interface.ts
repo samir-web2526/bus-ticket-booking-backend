@@ -1,3 +1,11 @@
+import { UserRole, UserStatus } from '../../../generated/enums';
+
 export type TUser = {
-    // Add interface properties here
-    };
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  profileImage?: string;
+  role: UserRole;
+  status: UserStatus;
+};

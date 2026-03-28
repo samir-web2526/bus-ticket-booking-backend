@@ -1,3 +1,7 @@
 export type TRoute = {
-    // Add interface properties here
-    };
+  sourceCity: string;
+  destinationCity: string;
+  distanceKm: number;
+  estimatedTimeMinutes: number;
+  stops: any;
+};

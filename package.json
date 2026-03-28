@@ -10,6 +10,7 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "migrate": "prisma migrate dev",
     "generate": "prisma generate",
+    "seed": "tsx src/seedAdmin.ts",
     "lint": "eslint ./src/**/*"
   },
   "keywords": [],

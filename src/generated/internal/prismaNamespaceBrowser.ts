@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  OperatorProfile: 'OperatorProfile',
+  PassengerProfile: 'PassengerProfile',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
@@ -87,12 +89,37 @@ export const UserScalarFieldEnum = {
   phone: 'phone',
   profileImage: 'profileImage',
   role: 'role',
+  status: 'status',
   isVerified: 'isVerified',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const OperatorProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyName: 'companyName',
+  tradeLicense: 'tradeLicense',
+  nid: 'nid',
+  address: 'address'
+} as const
+
+export type OperatorProfileScalarFieldEnum = (typeof OperatorProfileScalarFieldEnum)[keyof typeof OperatorProfileScalarFieldEnum]
+
+
+export const PassengerProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  gender: 'gender',
+  dateOfBirth: 'dateOfBirth',
+  emergencyContact: 'emergencyContact'
+} as const
+
+export type PassengerProfileScalarFieldEnum = (typeof PassengerProfileScalarFieldEnum)[keyof typeof PassengerProfileScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

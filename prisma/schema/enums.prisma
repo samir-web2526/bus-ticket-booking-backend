@@ -4,6 +4,12 @@ enum UserRole {
   PASSENGER
 }
 
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
 enum BusType {
   AC
   NON_AC
