@@ -7,8 +7,12 @@ const createUserValidationSchema = z.object({
     email: z.string().email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters long'),
     phone: z.string().optional(),
-    role: z.nativeEnum(UserRole).default(UserRole.PASSENGER),
-    status: z.nativeEnum(UserStatus).default(UserStatus.ACTIVE),
+    profileImage: z.string().url().optional(),
+
+    companyName: z.string().min(1, 'Company name is required'),
+    tradeLicense: z.string().min(1, 'Trade license is required'),
+    nid: z.string().min(1, 'NID is required'),
+    address: z.string().min(1, 'Address is required'),
   }),
 });
 

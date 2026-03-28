@@ -14,18 +14,19 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getAllUsers();
+  const result = await UserService.getAllUsers(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'Users fetched successfully',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await UserService.getMe(user.id);
+  const { id, role } = req.user;
+  const result = await UserService.getMe(id, role);
   sendResponse(res, {
     statusCode: 200,
     success: true,

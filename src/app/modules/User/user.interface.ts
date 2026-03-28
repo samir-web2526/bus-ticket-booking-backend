@@ -1,11 +1,12 @@
-import { UserRole, UserStatus } from '../../../generated/enums';
-
-export type TUser = {
+export interface ICreateOperatorPayload {
   name: string;
   email: string;
-  password?: string;
+  password: string;
   phone?: string;
   profileImage?: string;
-  role: UserRole;
-  status: UserStatus;
-};
+  companyName: string;
+  tradeLicense: string;
+  nid: string;
+  address: string;
+}
+

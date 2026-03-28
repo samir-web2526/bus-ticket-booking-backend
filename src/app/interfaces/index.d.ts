@@ -1,9 +1,16 @@
-import { IRequestUser } from "./requestUser.interface";
+import { UserRole } from '../../generated/enums';
 
 declare global {
   namespace Express {
     interface Request {
-      user: IRequestUser;
+      user: {
+        id: string;
+        name: string;
+        email: string;
+        role: UserRole;
+      };
     }
   }
 }
+
+export {};
