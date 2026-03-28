@@ -16,6 +16,10 @@ interface EnvConfig {
     ACCESS_TOKEN_EXPIRES_IN: number;
     REFRESH_TOKEN_SECRET: string;
     REFRESH_TOKEN_EXPIRES_IN: number;
+    ADMIN_EMAIL: string;
+    ADMIN_PASSWORD: string;
+    ADMIN_NAME: string;
+    ADMIN_PHONE: string;
 }
 
 
@@ -31,7 +35,11 @@ const loadEnvVariables = (): EnvConfig => {
         'ACCESS_TOKEN_SECRET',
         'ACCESS_TOKEN_EXPIRES_IN',
         'REFRESH_TOKEN_SECRET',
-        'REFRESH_TOKEN_EXPIRES_IN'
+        'REFRESH_TOKEN_EXPIRES_IN',
+        'ADMIN_EMAIL',
+        'ADMIN_PASSWORD',
+        'ADMIN_NAME',
+        'ADMIN_PHONE'
     ]
 
     requireEnvVariable.forEach((variable) => {
@@ -52,6 +60,10 @@ const loadEnvVariables = (): EnvConfig => {
         ACCESS_TOKEN_EXPIRES_IN: parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN as string),
         REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
         REFRESH_TOKEN_EXPIRES_IN: parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN as string),
+        ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
+        ADMIN_PASSWORD: process.env.ADMIN_PASSWORD as string,
+        ADMIN_NAME: process.env.ADMIN_NAME as string,
+        ADMIN_PHONE: process.env.ADMIN_PHONE as string,
     }
 }
 

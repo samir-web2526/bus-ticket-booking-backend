@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { SeatLockController } from './seatLock.controller';
+
 import { checkAuth } from '../../middlewares/checkAuth';
 import { validateRequest } from '../../middlewares/validateRequest';
 import { SeatLockValidation } from './seatLock.validation';
+import { SeatLockController } from './seatLock.controller';
 
 const router = Router();
 

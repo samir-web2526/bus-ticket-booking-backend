@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { prisma } from '../lib/prisma';
-
+import { envVars } from '../config/env';
 
 export async function seedAdmin() {
   try {
@@ -15,22 +15,30 @@ export async function seedAdmin() {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const hashedPassword = await bcrypt.hash(envVars.ADMIN_PASSWORD, 10);
 
     // Create admin user
     const admin = await prisma.user.create({
       data: {
-        name: 'Admin User',
-        email: 'admin@example.com',
+        name: envVars.ADMIN_NAME,
+        email: envVars.ADMIN_EMAIL,
         password: hashedPassword,
-        phone: '+1234567890',
+        phone: envVars.ADMIN_PHONE,
         role: 'ADMIN',
-        isVerified: true,
+        status: 'ACTIVE',
       },
     });
 
-    console.log('Admin user created:', admin.email);
+    console.log(`Admin created successfully: ${admin.email}`);
+  } catch (error) {
+    console.error('Error during seeding:', error);
+    throw error;
   } finally {
     await prisma.$disconnect();
   }
 }
+
+// Execute the seed function
+seedAdmin().catch(() => {
+  process.exit(1);
+});
