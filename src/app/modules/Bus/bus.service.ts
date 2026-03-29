@@ -1,36 +1,44 @@
+import { SeatType } from "../../../generated/enums";
 import { prisma } from "../../../lib/prisma";
+import { TBus } from "./bus.interface";
 
-const createBus = async (payload: any) => {
-  const { totalSeats, ...busData } = payload;
-  
+const createBus = async (payload: TBus, operatorId: string) => {
+  const { totalSeats, vipSeats = 0, vipPrice = 0, deluxeSeats = 0, deluxePrice = 0, ...busData } = payload;
+
   const result = await prisma.$transaction(async (tx) => {
     const bus = await tx.bus.create({
-      data: {
-        ...busData,
-        totalSeats,
-      },
+      data: { ...busData, totalSeats, operatorId },
     });
 
-    // Generate seats automatically
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const seats = [];
-    for (let i = 1; i <= totalSeats; i++) {
-      const row = Math.ceil(i / 4);
-      const column = (i - 1) % 4 + 1;
-      const seatNumber = `${String.fromCharCode(64 + row)}${column}`;
-      
+
+    const getSeatType = (i: number): SeatType => {
+      if (i < vipSeats) return SeatType.VIP;
+      if (i < vipSeats + deluxeSeats) return SeatType.DELUXE;
+      return SeatType.STANDARD;
+    };
+    const getSeatPrice = (type: SeatType): number => {
+      if (type === SeatType.VIP) return vipPrice;
+      if (type === SeatType.DELUXE) return deluxePrice;
+      return busData.pricePerSeat;
+    };
+
+    for (let i = 0; i < totalSeats; i++) {
+      const rowIndex = Math.floor(i / 4);
+      const col = (i % 4) + 1;
+
       seats.push({
         busId: bus.id,
-        number: seatNumber,
-        type: 'standard',
-        row,
-        column,
+        number: `${letters[rowIndex]}${col}`,
+        type: getSeatType(i),
+        row: rowIndex + 1,
+        column: col,
+        price: getSeatPrice(getSeatType(i)),
       });
     }
 
-    await tx.seat.createMany({
-      data: seats,
-    });
-
+    await tx.seat.createMany({ data: seats });
     return bus;
   });
 

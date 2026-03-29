@@ -231,7 +231,8 @@ export const SeatScalarFieldEnum = {
   number: 'number',
   type: 'type',
   row: 'row',
-  column: 'column'
+  column: 'column',
+  price: 'price'
 } as const
 
 export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]

@@ -29,11 +29,13 @@ export type AggregateSeat = {
 export type SeatAvgAggregateOutputType = {
   row: number | null
   column: number | null
+  price: number | null
 }
 
 export type SeatSumAggregateOutputType = {
   row: number | null
   column: number | null
+  price: number | null
 }
 
 export type SeatMinAggregateOutputType = {
@@ -43,6 +45,7 @@ export type SeatMinAggregateOutputType = {
   type: string | null
   row: number | null
   column: number | null
+  price: number | null
 }
 
 export type SeatMaxAggregateOutputType = {
@@ -52,6 +55,7 @@ export type SeatMaxAggregateOutputType = {
   type: string | null
   row: number | null
   column: number | null
+  price: number | null
 }
 
 export type SeatCountAggregateOutputType = {
@@ -61,6 +65,7 @@ export type SeatCountAggregateOutputType = {
   type: number
   row: number
   column: number
+  price: number
   _all: number
 }
 
@@ -68,11 +73,13 @@ export type SeatCountAggregateOutputType = {
 export type SeatAvgAggregateInputType = {
   row?: true
   column?: true
+  price?: true
 }
 
 export type SeatSumAggregateInputType = {
   row?: true
   column?: true
+  price?: true
 }
 
 export type SeatMinAggregateInputType = {
@@ -82,6 +89,7 @@ export type SeatMinAggregateInputType = {
   type?: true
   row?: true
   column?: true
+  price?: true
 }
 
 export type SeatMaxAggregateInputType = {
@@ -91,6 +99,7 @@ export type SeatMaxAggregateInputType = {
   type?: true
   row?: true
   column?: true
+  price?: true
 }
 
 export type SeatCountAggregateInputType = {
@@ -100,6 +109,7 @@ export type SeatCountAggregateInputType = {
   type?: true
   row?: true
   column?: true
+  price?: true
   _all?: true
 }
 
@@ -196,6 +206,7 @@ export type SeatGroupByOutputType = {
   type: string
   row: number
   column: number
+  price: number
   _count: SeatCountAggregateOutputType | null
   _avg: SeatAvgAggregateOutputType | null
   _sum: SeatSumAggregateOutputType | null
@@ -228,6 +239,7 @@ export type SeatWhereInput = {
   type?: Prisma.StringFilter<"Seat"> | string
   row?: Prisma.IntFilter<"Seat"> | number
   column?: Prisma.IntFilter<"Seat"> | number
+  price?: Prisma.FloatFilter<"Seat"> | number
   bus?: Prisma.XOR<Prisma.BusScalarRelationFilter, Prisma.BusWhereInput>
   seatLocks?: Prisma.SeatLockListRelationFilter
 }
@@ -239,6 +251,7 @@ export type SeatOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   bus?: Prisma.BusOrderByWithRelationInput
   seatLocks?: Prisma.SeatLockOrderByRelationAggregateInput
 }
@@ -253,6 +266,7 @@ export type SeatWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.StringFilter<"Seat"> | string
   row?: Prisma.IntFilter<"Seat"> | number
   column?: Prisma.IntFilter<"Seat"> | number
+  price?: Prisma.FloatFilter<"Seat"> | number
   bus?: Prisma.XOR<Prisma.BusScalarRelationFilter, Prisma.BusWhereInput>
   seatLocks?: Prisma.SeatLockListRelationFilter
 }, "id">
@@ -264,6 +278,7 @@ export type SeatOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   _count?: Prisma.SeatCountOrderByAggregateInput
   _avg?: Prisma.SeatAvgOrderByAggregateInput
   _max?: Prisma.SeatMaxOrderByAggregateInput
@@ -281,6 +296,7 @@ export type SeatScalarWhereWithAggregatesInput = {
   type?: Prisma.StringWithAggregatesFilter<"Seat"> | string
   row?: Prisma.IntWithAggregatesFilter<"Seat"> | number
   column?: Prisma.IntWithAggregatesFilter<"Seat"> | number
+  price?: Prisma.FloatWithAggregatesFilter<"Seat"> | number
 }
 
 export type SeatCreateInput = {
@@ -289,6 +305,7 @@ export type SeatCreateInput = {
   type: string
   row: number
   column: number
+  price: number
   bus: Prisma.BusCreateNestedOneWithoutSeatsInput
   seatLocks?: Prisma.SeatLockCreateNestedManyWithoutSeatInput
 }
@@ -300,6 +317,7 @@ export type SeatUncheckedCreateInput = {
   type: string
   row: number
   column: number
+  price: number
   seatLocks?: Prisma.SeatLockUncheckedCreateNestedManyWithoutSeatInput
 }
 
@@ -309,6 +327,7 @@ export type SeatUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   bus?: Prisma.BusUpdateOneRequiredWithoutSeatsNestedInput
   seatLocks?: Prisma.SeatLockUpdateManyWithoutSeatNestedInput
 }
@@ -320,6 +339,7 @@ export type SeatUncheckedUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   seatLocks?: Prisma.SeatLockUncheckedUpdateManyWithoutSeatNestedInput
 }
 
@@ -330,6 +350,7 @@ export type SeatCreateManyInput = {
   type: string
   row: number
   column: number
+  price: number
 }
 
 export type SeatUpdateManyMutationInput = {
@@ -338,6 +359,7 @@ export type SeatUpdateManyMutationInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type SeatUncheckedUpdateManyInput = {
@@ -347,6 +369,7 @@ export type SeatUncheckedUpdateManyInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type SeatListRelationFilter = {
@@ -366,11 +389,13 @@ export type SeatCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatAvgOrderByAggregateInput = {
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatMaxOrderByAggregateInput = {
@@ -380,6 +405,7 @@ export type SeatMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatMinOrderByAggregateInput = {
@@ -389,11 +415,13 @@ export type SeatMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatSumOrderByAggregateInput = {
   row?: Prisma.SortOrder
   column?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatScalarRelationFilter = {
@@ -463,6 +491,7 @@ export type SeatCreateWithoutBusInput = {
   type: string
   row: number
   column: number
+  price: number
   seatLocks?: Prisma.SeatLockCreateNestedManyWithoutSeatInput
 }
 
@@ -472,6 +501,7 @@ export type SeatUncheckedCreateWithoutBusInput = {
   type: string
   row: number
   column: number
+  price: number
   seatLocks?: Prisma.SeatLockUncheckedCreateNestedManyWithoutSeatInput
 }
 
@@ -511,6 +541,7 @@ export type SeatScalarWhereInput = {
   type?: Prisma.StringFilter<"Seat"> | string
   row?: Prisma.IntFilter<"Seat"> | number
   column?: Prisma.IntFilter<"Seat"> | number
+  price?: Prisma.FloatFilter<"Seat"> | number
 }
 
 export type SeatCreateWithoutSeatLocksInput = {
@@ -519,6 +550,7 @@ export type SeatCreateWithoutSeatLocksInput = {
   type: string
   row: number
   column: number
+  price: number
   bus: Prisma.BusCreateNestedOneWithoutSeatsInput
 }
 
@@ -529,6 +561,7 @@ export type SeatUncheckedCreateWithoutSeatLocksInput = {
   type: string
   row: number
   column: number
+  price: number
 }
 
 export type SeatCreateOrConnectWithoutSeatLocksInput = {
@@ -553,6 +586,7 @@ export type SeatUpdateWithoutSeatLocksInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   bus?: Prisma.BusUpdateOneRequiredWithoutSeatsNestedInput
 }
 
@@ -563,6 +597,7 @@ export type SeatUncheckedUpdateWithoutSeatLocksInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type SeatCreateManyBusInput = {
@@ -571,6 +606,7 @@ export type SeatCreateManyBusInput = {
   type: string
   row: number
   column: number
+  price: number
 }
 
 export type SeatUpdateWithoutBusInput = {
@@ -579,6 +615,7 @@ export type SeatUpdateWithoutBusInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   seatLocks?: Prisma.SeatLockUpdateManyWithoutSeatNestedInput
 }
 
@@ -588,6 +625,7 @@ export type SeatUncheckedUpdateWithoutBusInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   seatLocks?: Prisma.SeatLockUncheckedUpdateManyWithoutSeatNestedInput
 }
 
@@ -597,6 +635,7 @@ export type SeatUncheckedUpdateManyWithoutBusInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.IntFieldUpdateOperationsInput | number
   column?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 
@@ -637,6 +676,7 @@ export type SeatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   type?: boolean
   row?: boolean
   column?: boolean
+  price?: boolean
   bus?: boolean | Prisma.BusDefaultArgs<ExtArgs>
   seatLocks?: boolean | Prisma.Seat$seatLocksArgs<ExtArgs>
   _count?: boolean | Prisma.SeatCountOutputTypeDefaultArgs<ExtArgs>
@@ -649,6 +689,7 @@ export type SeatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   type?: boolean
   row?: boolean
   column?: boolean
+  price?: boolean
   bus?: boolean | Prisma.BusDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -659,6 +700,7 @@ export type SeatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   type?: boolean
   row?: boolean
   column?: boolean
+  price?: boolean
   bus?: boolean | Prisma.BusDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -669,9 +711,10 @@ export type SeatSelectScalar = {
   type?: boolean
   row?: boolean
   column?: boolean
+  price?: boolean
 }
 
-export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "busId" | "number" | "type" | "row" | "column", ExtArgs["result"]["seat"]>
+export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "busId" | "number" | "type" | "row" | "column" | "price", ExtArgs["result"]["seat"]>
 export type SeatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bus?: boolean | Prisma.BusDefaultArgs<ExtArgs>
   seatLocks?: boolean | Prisma.Seat$seatLocksArgs<ExtArgs>
@@ -697,6 +740,7 @@ export type $SeatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     type: string
     row: number
     column: number
+    price: number
   }, ExtArgs["result"]["seat"]>
   composites: {}
 }
@@ -1128,6 +1172,7 @@ export interface SeatFieldRefs {
   readonly type: Prisma.FieldRef<"Seat", 'String'>
   readonly row: Prisma.FieldRef<"Seat", 'Int'>
   readonly column: Prisma.FieldRef<"Seat", 'Int'>
+  readonly price: Prisma.FieldRef<"Seat", 'Float'>
 }
     
 

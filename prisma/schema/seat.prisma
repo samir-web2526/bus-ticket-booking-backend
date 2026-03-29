@@ -6,6 +6,7 @@ model Seat {
   type     String
   row      Int
   column   Int
+  price    Float
 
   seatLocks SeatLock[]
 

@@ -1,12 +1,15 @@
-import { BusType } from '../../../generated/enums';
+import { BusType } from "../../../generated/enums";
 
-export type TBus = {
-  operatorId: string;
+export interface TBus {
+  operatorId?: string;
   name: string;
   number: string;
   type: BusType;
   totalSeats: number;
+  vipSeats?: number;
+  deluxeSeats?: number;
+  vipPrice?: number;
+  deluxePrice?: number;
   pricePerSeat: number;
   isActive?: boolean;
-};
-
+}

@@ -45,3 +45,12 @@ export const BookingStatus = {
 } as const
 
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
+export const SeatType = {
+  STANDARD: 'STANDARD',
+  DELUXE: 'DELUXE',
+  VIP: 'VIP'
+} as const
+
+export type SeatType = (typeof SeatType)[keyof typeof SeatType]

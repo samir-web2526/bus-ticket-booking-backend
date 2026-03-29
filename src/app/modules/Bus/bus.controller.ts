@@ -4,7 +4,8 @@ import { BusService } from './bus.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
 
 const createBus = catchAsync(async (req: Request, res: Response) => {
-  const result = await BusService.createBus(req.body);
+  const operatorId = req.user.role === "ADMIN" ? req.body.operatorId : req.user.id;
+  const result = await BusService.createBus(req.body, operatorId);
   sendResponse(res, {
     statusCode: 201,
     success: true,

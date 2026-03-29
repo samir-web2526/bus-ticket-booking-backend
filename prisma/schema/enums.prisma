@@ -23,3 +23,9 @@ enum BookingStatus {
   EXPIRED
   CANCELLED
 }
+
+enum SeatType {
+  STANDARD
+  DELUXE
+  VIP
+}

@@ -6,7 +6,6 @@ import { BusValidation } from './bus.validation';
 
 const router = Router();
 
-// Create bus (Operator/Admin)
 router.post(
   '/',
   checkAuth('OPERATOR', 'ADMIN'),
