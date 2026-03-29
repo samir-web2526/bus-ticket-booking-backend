@@ -23,8 +23,9 @@ const updateBusValidationSchema = z.object({
     name: z.string().optional(),
     number: z.string().optional(),
     type: z.nativeEnum(BusType).optional(),
-    totalSeats: z.number().int().positive().optional(),
     pricePerSeat: z.number().positive().optional(),
+    vipPrice: z.number().positive().optional(),
+    deluxePrice: z.number().positive().optional(),
     isActive: z.boolean().optional(),
   }),
 });

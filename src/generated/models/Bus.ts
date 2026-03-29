@@ -44,6 +44,7 @@ export type BusMinAggregateOutputType = {
   type: $Enums.BusType | null
   totalSeats: number | null
   pricePerSeat: number | null
+  isDeleted: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -57,6 +58,7 @@ export type BusMaxAggregateOutputType = {
   type: $Enums.BusType | null
   totalSeats: number | null
   pricePerSeat: number | null
+  isDeleted: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -70,6 +72,7 @@ export type BusCountAggregateOutputType = {
   type: number
   totalSeats: number
   pricePerSeat: number
+  isDeleted: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -95,6 +98,7 @@ export type BusMinAggregateInputType = {
   type?: true
   totalSeats?: true
   pricePerSeat?: true
+  isDeleted?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -108,6 +112,7 @@ export type BusMaxAggregateInputType = {
   type?: true
   totalSeats?: true
   pricePerSeat?: true
+  isDeleted?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -121,6 +126,7 @@ export type BusCountAggregateInputType = {
   type?: true
   totalSeats?: true
   pricePerSeat?: true
+  isDeleted?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -221,6 +227,7 @@ export type BusGroupByOutputType = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted: boolean
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -257,6 +264,7 @@ export type BusWhereInput = {
   type?: Prisma.EnumBusTypeFilter<"Bus"> | $Enums.BusType
   totalSeats?: Prisma.IntFilter<"Bus"> | number
   pricePerSeat?: Prisma.FloatFilter<"Bus"> | number
+  isDeleted?: Prisma.BoolFilter<"Bus"> | boolean
   isActive?: Prisma.BoolFilter<"Bus"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
@@ -273,6 +281,7 @@ export type BusOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
   pricePerSeat?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -292,6 +301,7 @@ export type BusWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumBusTypeFilter<"Bus"> | $Enums.BusType
   totalSeats?: Prisma.IntFilter<"Bus"> | number
   pricePerSeat?: Prisma.FloatFilter<"Bus"> | number
+  isDeleted?: Prisma.BoolFilter<"Bus"> | boolean
   isActive?: Prisma.BoolFilter<"Bus"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
@@ -308,6 +318,7 @@ export type BusOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
   pricePerSeat?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -329,6 +340,7 @@ export type BusScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumBusTypeWithAggregatesFilter<"Bus"> | $Enums.BusType
   totalSeats?: Prisma.IntWithAggregatesFilter<"Bus"> | number
   pricePerSeat?: Prisma.FloatWithAggregatesFilter<"Bus"> | number
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"Bus"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"Bus"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Bus"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Bus"> | Date | string
@@ -341,6 +353,7 @@ export type BusCreateInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -357,6 +370,7 @@ export type BusUncheckedCreateInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -371,6 +385,7 @@ export type BusUpdateInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -387,6 +402,7 @@ export type BusUncheckedUpdateInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -402,6 +418,7 @@ export type BusCreateManyInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -414,6 +431,7 @@ export type BusUpdateManyMutationInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -427,6 +445,7 @@ export type BusUncheckedUpdateManyInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -450,6 +469,7 @@ export type BusCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
   pricePerSeat?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -468,6 +488,7 @@ export type BusMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
   pricePerSeat?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -481,6 +502,7 @@ export type BusMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   totalSeats?: Prisma.SortOrder
   pricePerSeat?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -585,6 +607,7 @@ export type BusCreateWithoutOperatorInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -599,6 +622,7 @@ export type BusUncheckedCreateWithoutOperatorInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -643,6 +667,7 @@ export type BusScalarWhereInput = {
   type?: Prisma.EnumBusTypeFilter<"Bus"> | $Enums.BusType
   totalSeats?: Prisma.IntFilter<"Bus"> | number
   pricePerSeat?: Prisma.FloatFilter<"Bus"> | number
+  isDeleted?: Prisma.BoolFilter<"Bus"> | boolean
   isActive?: Prisma.BoolFilter<"Bus"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
@@ -655,6 +680,7 @@ export type BusCreateWithoutSchedulesInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -670,6 +696,7 @@ export type BusUncheckedCreateWithoutSchedulesInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -699,6 +726,7 @@ export type BusUpdateWithoutSchedulesInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -714,6 +742,7 @@ export type BusUncheckedUpdateWithoutSchedulesInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -727,6 +756,7 @@ export type BusCreateWithoutSeatsInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -742,6 +772,7 @@ export type BusUncheckedCreateWithoutSeatsInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -771,6 +802,7 @@ export type BusUpdateWithoutSeatsInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -786,6 +818,7 @@ export type BusUncheckedUpdateWithoutSeatsInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -799,6 +832,7 @@ export type BusCreateManyOperatorInput = {
   type: $Enums.BusType
   totalSeats: number
   pricePerSeat: number
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -811,6 +845,7 @@ export type BusUpdateWithoutOperatorInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -825,6 +860,7 @@ export type BusUncheckedUpdateWithoutOperatorInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -839,6 +875,7 @@ export type BusUncheckedUpdateManyWithoutOperatorInput = {
   type?: Prisma.EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   totalSeats?: Prisma.IntFieldUpdateOperationsInput | number
   pricePerSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -892,6 +929,7 @@ export type BusSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   type?: boolean
   totalSeats?: boolean
   pricePerSeat?: boolean
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -909,6 +947,7 @@ export type BusSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   type?: boolean
   totalSeats?: boolean
   pricePerSeat?: boolean
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -923,6 +962,7 @@ export type BusSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   type?: boolean
   totalSeats?: boolean
   pricePerSeat?: boolean
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -937,12 +977,13 @@ export type BusSelectScalar = {
   type?: boolean
   totalSeats?: boolean
   pricePerSeat?: boolean
+  isDeleted?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BusOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "name" | "number" | "type" | "totalSeats" | "pricePerSeat" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["bus"]>
+export type BusOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "operatorId" | "name" | "number" | "type" | "totalSeats" | "pricePerSeat" | "isDeleted" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["bus"]>
 export type BusInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   operator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   schedules?: boolean | Prisma.Bus$schedulesArgs<ExtArgs>
@@ -971,6 +1012,7 @@ export type $BusPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     type: $Enums.BusType
     totalSeats: number
     pricePerSeat: number
+    isDeleted: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1407,6 +1449,7 @@ export interface BusFieldRefs {
   readonly type: Prisma.FieldRef<"Bus", 'BusType'>
   readonly totalSeats: Prisma.FieldRef<"Bus", 'Int'>
   readonly pricePerSeat: Prisma.FieldRef<"Bus", 'Float'>
+  readonly isDeleted: Prisma.FieldRef<"Bus", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"Bus", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Bus", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Bus", 'DateTime'>

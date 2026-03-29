@@ -15,7 +15,7 @@ const createBus = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBuses = catchAsync(async (req: Request, res: Response) => {
-  const result = await BusService.getAllBuses();
+  const result = await BusService.getAllBuses(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -25,7 +25,8 @@ const getAllBuses = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getBusById = catchAsync(async (req: Request, res: Response) => {
-  const result = await BusService.getBusById(req.params.id as string);
+  const busId = req.params.id as string;
+  const result = await BusService.getBusById(busId);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -35,7 +36,9 @@ const getBusById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateBus = catchAsync(async (req: Request, res: Response) => {
-  const result = await BusService.updateBus(req.params.id as string, req.body);
+  const busId = req.params.id as string;
+  const { id: userId, role } = req.user;
+  const result = await BusService.updateBus(busId, userId, role, req.body);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -45,7 +48,9 @@ const updateBus = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteBus = catchAsync(async (req: Request, res: Response) => {
-  const result = await BusService.deleteBus(req.params.id as string);
+  const busId = req.params.id as string;
+  const { id: userId, role } = req.user;
+  const result = await BusService.deleteBus(busId, userId, role);
   sendResponse(res, {
     statusCode: 200,
     success: true,

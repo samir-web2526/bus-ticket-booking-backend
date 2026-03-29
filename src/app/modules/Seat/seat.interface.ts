@@ -4,4 +4,5 @@ export interface TSeat {
   type: string;
   row: number;
   column: number;
+  price: number;
 }

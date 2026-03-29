@@ -188,6 +188,7 @@ export const BusScalarFieldEnum = {
   type: 'type',
   totalSeats: 'totalSeats',
   pricePerSeat: 'pricePerSeat',
+  isDeleted: 'isDeleted',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
