@@ -1,37 +1,117 @@
+import status from "http-status";
 import { prisma } from "../../../lib/prisma";
+import AppError from "../../errorHelpers/AppError";
+import { TRoute } from "./route.interface";
+import { paginationHelper } from "../../sharedfile";
+import { routeSearchableFields } from "./route.constant";
 
-const createRoute = async (payload: any) => {
+
+const createRoute = async (payload: TRoute) => {
+  const { sourceCity, destinationCity, distanceKm, estimatedTimeMinutes, stops } = payload;
   const result = await prisma.route.create({
-    data: payload,
+    data: {
+      sourceCity,
+      destinationCity,
+      distanceKm,
+      estimatedTimeMinutes,
+      stops
+    },
   });
   return result;
 };
 
-const getAllRoutes = async () => {
-  const result = await prisma.route.findMany();
-  return result;
+const getAllRoutes = async (query: any) => {
+  const { search } = query;
+  const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
+
+  const andConditions: any[] = [];
+
+  if (search) {
+    andConditions.push({
+      OR: routeSearchableFields.map((field) => ({
+        [field]: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const result = await prisma.route.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: { [sortBy]: sortOrder },
+    include: {
+      schedules: {
+        select: {
+          id: true,
+          departure: true,
+          arrival: true,
+          status: true,
+          bus: {
+            select: {
+              id: true,
+              name: true,
+              type: true,
+              totalSeats: true,
+              operator: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  phone: true,
+                  profileImage: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+  });
+  const total = await prisma.route.count({ where: whereConditions });
+  return {
+    data: result,
+    meta: { page, limit, total }
+  }
 };
 
 const getRouteById = async (id: string) => {
   const result = await prisma.route.findUnique({
     where: { id },
   });
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, 'Route not found');
+  };
   return result;
 };
 
 const updateRoute = async (id: string, payload: any) => {
-  const result = await prisma.route.update({
+  const isRouteExist = await prisma.route.findUnique({
+    where: { id },
+  });
+  if (!isRouteExist) {
+    throw new AppError(status.NOT_FOUND, 'Route not found');
+  };
+  return await prisma.route.update({
     where: { id },
     data: payload,
   });
-  return result;
 };
 
 const deleteRoute = async (id: string) => {
-  const result = await prisma.route.delete({
+  const isRouteExist = await prisma.route.findUnique({
     where: { id },
   });
-  return result;
+  if (!isRouteExist) {
+    throw new AppError(status.NOT_FOUND, 'Route not found');
+  };
+  return await prisma.route.delete({
+    where: { id },
+  });
 };
 
 export const RouteService = {

@@ -9,7 +9,7 @@ const router = Router();
 // Create booking (Passenger)
 router.post(
   '/',
-  checkAuth('PASSENGER', 'ADMIN', 'OPERATOR'),
+  checkAuth('PASSENGER'),
   validateRequest(BookingValidation.createBookingValidationSchema),
   BookingController.createBooking
 );

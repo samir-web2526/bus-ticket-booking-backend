@@ -9,6 +9,7 @@ model Seat {
   price    Float
 
   seatLocks SeatLock[]
+  bookingSeats BookingSeat[]
 
   @@map("seats")
 }

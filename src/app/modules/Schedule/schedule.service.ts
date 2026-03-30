@@ -9,21 +9,21 @@ const createSchedule = async (payload: any) => {
 
 const getAllSchedules = async (filters: any) => {
   const { sourceCity, destinationCity, date } = filters;
-  
+
   const where: any = {};
-  
+
   if (sourceCity || destinationCity) {
     where.route = {};
     if (sourceCity) where.route.sourceCity = sourceCity;
     if (destinationCity) where.route.destinationCity = destinationCity;
   }
-  
+
   if (date) {
     const startOfDay = new Date(date);
     startOfDay.setHours(0, 0, 0, 0);
     const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
-    
+
     where.departure = {
       gte: startOfDay,
       lte: endOfDay,

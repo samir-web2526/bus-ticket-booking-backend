@@ -6,7 +6,6 @@ const createScheduleValidationSchema = z.object({
     routeId: z.string().min(1, 'Route ID is required'),
     departure: z.string().min(1, 'Departure time is required'),
     arrival: z.string().min(1, 'Arrival time is required'),
-    fare: z.number().positive('Fare must be a positive number'),
     status: z.string().optional(),
   }),
 });

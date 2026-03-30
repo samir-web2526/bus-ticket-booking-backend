@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 import { BookingService } from './booking.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
+import { string } from 'zod';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
   const user = (req as any).user;
+  const scheduleId = req.body.scheduleId;
   const result = await BookingService.createBooking({
-    ...req.body,
     userId: user?.id,
+    scheduleId,
   });
   sendResponse(res, {
     statusCode: 201,

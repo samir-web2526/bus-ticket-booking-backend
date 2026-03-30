@@ -4,6 +4,7 @@ model Booking {
   userId     String
   schedule   Schedule      @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   scheduleId String
+  bookingSeats BookingSeat[]
   status     BookingStatus @default(PENDING)
   totalFare  Float
   createdAt  DateTime      @default(now())

@@ -1,22 +1,27 @@
 import { BookingStatus } from "../../../generated/enums";
 import { prisma } from "../../../lib/prisma";
 
-const createBooking = async (payload: { scheduleId: string, userId: string, totalFare: number }) => {
-  const { scheduleId, userId, totalFare } = payload;
-  
+const createBooking = async (payload: { scheduleId: string, userId: string, }) => {
+  const { scheduleId, userId } = payload;
+
   const result = await prisma.$transaction(async (tx) => {
-    // 1. Check if user has active locks for this schedule
     const activeLocks = await tx.seatLock.findMany({
       where: {
         userId,
         scheduleId,
         expiresAt: { gte: new Date() },
       },
+      include: {
+        seat: true,
+      }
     });
 
     if (activeLocks.length === 0) {
       throw new Error('No active seat locks found. Please lock seats before booking.');
     }
+
+
+    const totalFare = activeLocks.reduce((sum, lock) => sum + lock.seat.price, 0);
 
     // 2. Create the booking
     const booking = await tx.booking.create({
@@ -28,8 +33,38 @@ const createBooking = async (payload: { scheduleId: string, userId: string, tota
       },
     });
 
-    // In a real implementation with BookingSeat model, we would create those here.
-    return booking;
+    await tx.bookingSeat.createMany({
+      data: activeLocks.map((lock) => ({
+        bookingId: booking.id,
+        seatId: lock.seatId,
+      })),
+    });
+
+    await tx.seatLock.deleteMany({
+      where: {
+        userId,
+        scheduleId,
+      },
+    });
+
+    return await tx.booking.findUnique({
+      where: { id: booking.id },
+      include: {
+        user: true,
+        bookingSeats: {
+          include: {
+            seat: true
+          }
+        },
+        schedule: {
+          include: {
+            bus: true,
+            route: true,
+          },
+        },
+      },
+    });
+
   });
 
   return result;

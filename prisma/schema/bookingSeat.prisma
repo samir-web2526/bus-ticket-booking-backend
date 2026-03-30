@@ -1,0 +1,11 @@
+model BookingSeat {
+  id        String  @id @default(uuid())
+
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId String
+
+  seat      Seat    @relation(fields: [seatId], references: [id], onDelete: Cascade)
+  seatId    String
+
+  @@map("booking_seats")
+}

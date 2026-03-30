@@ -20,18 +20,8 @@ export type ScheduleModel = runtime.Types.Result.DefaultSelection<Prisma.$Schedu
 
 export type AggregateSchedule = {
   _count: ScheduleCountAggregateOutputType | null
-  _avg: ScheduleAvgAggregateOutputType | null
-  _sum: ScheduleSumAggregateOutputType | null
   _min: ScheduleMinAggregateOutputType | null
   _max: ScheduleMaxAggregateOutputType | null
-}
-
-export type ScheduleAvgAggregateOutputType = {
-  fare: number | null
-}
-
-export type ScheduleSumAggregateOutputType = {
-  fare: number | null
 }
 
 export type ScheduleMinAggregateOutputType = {
@@ -40,7 +30,6 @@ export type ScheduleMinAggregateOutputType = {
   routeId: string | null
   departure: Date | null
   arrival: Date | null
-  fare: number | null
   status: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,7 +41,6 @@ export type ScheduleMaxAggregateOutputType = {
   routeId: string | null
   departure: Date | null
   arrival: Date | null
-  fare: number | null
   status: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,7 +52,6 @@ export type ScheduleCountAggregateOutputType = {
   routeId: number
   departure: number
   arrival: number
-  fare: number
   status: number
   createdAt: number
   updatedAt: number
@@ -72,21 +59,12 @@ export type ScheduleCountAggregateOutputType = {
 }
 
 
-export type ScheduleAvgAggregateInputType = {
-  fare?: true
-}
-
-export type ScheduleSumAggregateInputType = {
-  fare?: true
-}
-
 export type ScheduleMinAggregateInputType = {
   id?: true
   busId?: true
   routeId?: true
   departure?: true
   arrival?: true
-  fare?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -98,7 +76,6 @@ export type ScheduleMaxAggregateInputType = {
   routeId?: true
   departure?: true
   arrival?: true
-  fare?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -110,7 +87,6 @@ export type ScheduleCountAggregateInputType = {
   routeId?: true
   departure?: true
   arrival?: true
-  fare?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -155,18 +131,6 @@ export type ScheduleAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: ScheduleAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: ScheduleSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: ScheduleMinAggregateInputType
@@ -197,8 +161,6 @@ export type ScheduleGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: ScheduleCountAggregateInputType | true
-  _avg?: ScheduleAvgAggregateInputType
-  _sum?: ScheduleSumAggregateInputType
   _min?: ScheduleMinAggregateInputType
   _max?: ScheduleMaxAggregateInputType
 }
@@ -209,13 +171,10 @@ export type ScheduleGroupByOutputType = {
   routeId: string
   departure: Date
   arrival: Date
-  fare: number
   status: string
   createdAt: Date
   updatedAt: Date
   _count: ScheduleCountAggregateOutputType | null
-  _avg: ScheduleAvgAggregateOutputType | null
-  _sum: ScheduleSumAggregateOutputType | null
   _min: ScheduleMinAggregateOutputType | null
   _max: ScheduleMaxAggregateOutputType | null
 }
@@ -244,7 +203,6 @@ export type ScheduleWhereInput = {
   routeId?: Prisma.StringFilter<"Schedule"> | string
   departure?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   arrival?: Prisma.DateTimeFilter<"Schedule"> | Date | string
-  fare?: Prisma.FloatFilter<"Schedule"> | number
   status?: Prisma.StringFilter<"Schedule"> | string
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -260,7 +218,6 @@ export type ScheduleOrderByWithRelationInput = {
   routeId?: Prisma.SortOrder
   departure?: Prisma.SortOrder
   arrival?: Prisma.SortOrder
-  fare?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -279,7 +236,6 @@ export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
   routeId?: Prisma.StringFilter<"Schedule"> | string
   departure?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   arrival?: Prisma.DateTimeFilter<"Schedule"> | Date | string
-  fare?: Prisma.FloatFilter<"Schedule"> | number
   status?: Prisma.StringFilter<"Schedule"> | string
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -295,15 +251,12 @@ export type ScheduleOrderByWithAggregationInput = {
   routeId?: Prisma.SortOrder
   departure?: Prisma.SortOrder
   arrival?: Prisma.SortOrder
-  fare?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ScheduleCountOrderByAggregateInput
-  _avg?: Prisma.ScheduleAvgOrderByAggregateInput
   _max?: Prisma.ScheduleMaxOrderByAggregateInput
   _min?: Prisma.ScheduleMinOrderByAggregateInput
-  _sum?: Prisma.ScheduleSumOrderByAggregateInput
 }
 
 export type ScheduleScalarWhereWithAggregatesInput = {
@@ -315,7 +268,6 @@ export type ScheduleScalarWhereWithAggregatesInput = {
   routeId?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
   departure?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
   arrival?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
-  fare?: Prisma.FloatWithAggregatesFilter<"Schedule"> | number
   status?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
@@ -325,7 +277,6 @@ export type ScheduleCreateInput = {
   id?: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -341,7 +292,6 @@ export type ScheduleUncheckedCreateInput = {
   routeId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -353,7 +303,6 @@ export type ScheduleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -369,7 +318,6 @@ export type ScheduleUncheckedUpdateInput = {
   routeId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,7 +331,6 @@ export type ScheduleCreateManyInput = {
   routeId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -393,7 +340,6 @@ export type ScheduleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -405,7 +351,6 @@ export type ScheduleUncheckedUpdateManyInput = {
   routeId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -432,14 +377,9 @@ export type ScheduleCountOrderByAggregateInput = {
   routeId?: Prisma.SortOrder
   departure?: Prisma.SortOrder
   arrival?: Prisma.SortOrder
-  fare?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type ScheduleAvgOrderByAggregateInput = {
-  fare?: Prisma.SortOrder
 }
 
 export type ScheduleMaxOrderByAggregateInput = {
@@ -448,7 +388,6 @@ export type ScheduleMaxOrderByAggregateInput = {
   routeId?: Prisma.SortOrder
   departure?: Prisma.SortOrder
   arrival?: Prisma.SortOrder
-  fare?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -460,14 +399,9 @@ export type ScheduleMinOrderByAggregateInput = {
   routeId?: Prisma.SortOrder
   departure?: Prisma.SortOrder
   arrival?: Prisma.SortOrder
-  fare?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type ScheduleSumOrderByAggregateInput = {
-  fare?: Prisma.SortOrder
 }
 
 export type ScheduleCreateNestedOneWithoutBookingsInput = {
@@ -586,7 +520,6 @@ export type ScheduleCreateWithoutBookingsInput = {
   id?: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -601,7 +534,6 @@ export type ScheduleUncheckedCreateWithoutBookingsInput = {
   routeId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -628,7 +560,6 @@ export type ScheduleUpdateWithoutBookingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -643,7 +574,6 @@ export type ScheduleUncheckedUpdateWithoutBookingsInput = {
   routeId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -654,7 +584,6 @@ export type ScheduleCreateWithoutBusInput = {
   id?: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -668,7 +597,6 @@ export type ScheduleUncheckedCreateWithoutBusInput = {
   routeId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -711,7 +639,6 @@ export type ScheduleScalarWhereInput = {
   routeId?: Prisma.StringFilter<"Schedule"> | string
   departure?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   arrival?: Prisma.DateTimeFilter<"Schedule"> | Date | string
-  fare?: Prisma.FloatFilter<"Schedule"> | number
   status?: Prisma.StringFilter<"Schedule"> | string
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -721,7 +648,6 @@ export type ScheduleCreateWithoutRouteInput = {
   id?: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -735,7 +661,6 @@ export type ScheduleUncheckedCreateWithoutRouteInput = {
   busId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -773,7 +698,6 @@ export type ScheduleCreateWithoutSeatLocksInput = {
   id?: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -788,7 +712,6 @@ export type ScheduleUncheckedCreateWithoutSeatLocksInput = {
   routeId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -815,7 +738,6 @@ export type ScheduleUpdateWithoutSeatLocksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -830,7 +752,6 @@ export type ScheduleUncheckedUpdateWithoutSeatLocksInput = {
   routeId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -842,7 +763,6 @@ export type ScheduleCreateManyBusInput = {
   routeId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -852,7 +772,6 @@ export type ScheduleUpdateWithoutBusInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -866,7 +785,6 @@ export type ScheduleUncheckedUpdateWithoutBusInput = {
   routeId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -879,7 +797,6 @@ export type ScheduleUncheckedUpdateManyWithoutBusInput = {
   routeId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -890,7 +807,6 @@ export type ScheduleCreateManyRouteInput = {
   busId: string
   departure: Date | string
   arrival: Date | string
-  fare: number
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -900,7 +816,6 @@ export type ScheduleUpdateWithoutRouteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -914,7 +829,6 @@ export type ScheduleUncheckedUpdateWithoutRouteInput = {
   busId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -927,7 +841,6 @@ export type ScheduleUncheckedUpdateManyWithoutRouteInput = {
   busId?: Prisma.StringFieldUpdateOperationsInput | string
   departure?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrival?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fare?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -979,7 +892,6 @@ export type ScheduleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   routeId?: boolean
   departure?: boolean
   arrival?: boolean
-  fare?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -996,7 +908,6 @@ export type ScheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   routeId?: boolean
   departure?: boolean
   arrival?: boolean
-  fare?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1010,7 +921,6 @@ export type ScheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   routeId?: boolean
   departure?: boolean
   arrival?: boolean
-  fare?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1024,13 +934,12 @@ export type ScheduleSelectScalar = {
   routeId?: boolean
   departure?: boolean
   arrival?: boolean
-  fare?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "busId" | "routeId" | "departure" | "arrival" | "fare" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["schedule"]>
+export type ScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "busId" | "routeId" | "departure" | "arrival" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["schedule"]>
 export type ScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bus?: boolean | Prisma.BusDefaultArgs<ExtArgs>
   route?: boolean | Prisma.RouteDefaultArgs<ExtArgs>
@@ -1061,7 +970,6 @@ export type $SchedulePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     routeId: string
     departure: Date
     arrival: Date
-    fare: number
     status: string
     createdAt: Date
     updatedAt: Date
@@ -1497,7 +1405,6 @@ export interface ScheduleFieldRefs {
   readonly routeId: Prisma.FieldRef<"Schedule", 'String'>
   readonly departure: Prisma.FieldRef<"Schedule", 'DateTime'>
   readonly arrival: Prisma.FieldRef<"Schedule", 'DateTime'>
-  readonly fare: Prisma.FieldRef<"Schedule", 'Float'>
   readonly status: Prisma.FieldRef<"Schedule", 'String'>
   readonly createdAt: Prisma.FieldRef<"Schedule", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Schedule", 'DateTime'>

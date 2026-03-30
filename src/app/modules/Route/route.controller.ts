@@ -13,7 +13,7 @@ const createRoute = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllRoutes = catchAsync(async (req: Request, res: Response) => {
-  const result = await RouteService.getAllRoutes();
+  const result = await RouteService.getAllRoutes(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,

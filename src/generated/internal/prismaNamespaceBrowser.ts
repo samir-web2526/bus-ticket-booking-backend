@@ -58,6 +58,7 @@ export const ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   Booking: 'Booking',
+  BookingSeat: 'BookingSeat',
   Bus: 'Bus',
   Route: 'Route',
   Schedule: 'Schedule',
@@ -180,6 +181,15 @@ export const BookingScalarFieldEnum = {
 export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
 
 
+export const BookingSeatScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  seatId: 'seatId'
+} as const
+
+export type BookingSeatScalarFieldEnum = (typeof BookingSeatScalarFieldEnum)[keyof typeof BookingSeatScalarFieldEnum]
+
+
 export const BusScalarFieldEnum = {
   id: 'id',
   operatorId: 'operatorId',
@@ -217,7 +227,6 @@ export const ScheduleScalarFieldEnum = {
   routeId: 'routeId',
   departure: 'departure',
   arrival: 'arrival',
-  fare: 'fare',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

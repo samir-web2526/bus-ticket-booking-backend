@@ -9,7 +9,7 @@ const router = Router();
 // Create route (Admin)
 router.post(
   '/',
-  checkAuth('ADMIN'),
+  checkAuth('OPERATOR', 'ADMIN'),
   validateRequest(RouteValidation.createRouteValidationSchema),
   RouteController.createRoute
 );

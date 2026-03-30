@@ -3,6 +3,5 @@ export type TSchedule = {
   routeId: string;
   departure: string;
   arrival: string;
-  fare: number;
   status?: string;
 };
