@@ -30,7 +30,7 @@ const getMyBookings = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBookings = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookingService.getAllBookings();
+  const result = await BookingService.getAllBookings(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,

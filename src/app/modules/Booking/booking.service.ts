@@ -3,6 +3,7 @@ import { BookingStatus, UserRole } from "../../../generated/enums";
 import { prisma } from "../../../lib/prisma";
 import AppError from "../../errorHelpers/AppError";
 import { userSelectFields } from "../User/user.constant";
+import { paginationHelper } from "../../sharedfile";
 
 const createBooking = async (payload: { scheduleId: string, userId: string, }) => {
   const { scheduleId, userId } = payload;
@@ -20,7 +21,7 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
     });
 
     if (activeLocks.length === 0) {
-      throw new Error('No active seat locks found. Please lock seats before booking.');
+      throw new AppError(status.NOT_FOUND, 'No active seat locks found. Please lock seats before booking.');
     }
 
     const totalFare = activeLocks.reduce((sum, lock) => sum + lock.seat.price, 0);
@@ -75,6 +76,9 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
 const getMyBookings = async (userId: string) => {
   const result = await prisma.booking.findMany({
     where: { userId },
+    orderBy: {
+      createdAt: 'desc'
+    },
     include: {
       bookingSeats: {
         include: { seat: true },
@@ -95,11 +99,32 @@ const getMyBookings = async (userId: string) => {
   return result;
 };
 
-const getAllBookings = async () => {
+const getAllBookings = async (query: any) => {
+  const { status: bookingStatus } = query;
+  const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
+  const andConditions: any[] = [];
+  if (bookingStatus) {
+    andConditions.push({
+      status: bookingStatus as BookingStatus
+    })
+  };
+  const whereConditions = { AND: andConditions };
+
   const result = await prisma.booking.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder
+    },
     include: {
       user: {
         select: userSelectFields
+      },
+      bookingSeats: {
+        include: {
+          seat: true
+        }
       },
       schedule: {
         include: {
@@ -109,7 +134,22 @@ const getAllBookings = async () => {
       },
     },
   });
-  return result;
+
+  if (result.length === 0) {
+    throw new AppError(status.NOT_FOUND, 'No bookings found.');
+  };
+
+  const total = await prisma.booking.count({
+    where: whereConditions,
+  });
+  return {
+    meta: {
+      page,
+      limit,
+      total
+    },
+    data: result
+  }
 };
 
 const getBookingById = async (bookingId: string, userId: string, role: UserRole) => {

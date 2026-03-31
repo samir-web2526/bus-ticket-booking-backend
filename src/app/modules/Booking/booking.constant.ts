@@ -1,6 +1,6 @@
 import { BookingStatus } from '../../../generated/enums';
 
-export const bookingSearchableFields = ['id', 'status'];
+export const bookingFilterableFields = ['status'];
 export const bookingStatuses = [
   BookingStatus.PENDING,
   BookingStatus.CONFIRMED,
