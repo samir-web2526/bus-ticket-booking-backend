@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { BookingService } from './booking.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
+import { UserRole } from '../../../generated/enums';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
@@ -39,7 +40,9 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getBookingById = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookingService.getBookingById(req.params.id as string);
+  const bookingId = req.params.id;
+  const { id: userId, role } = req.user;
+  const result = await BookingService.getBookingById(bookingId as string, userId as string, role as UserRole);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -49,8 +52,9 @@ const getBookingById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const cancelBooking = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await BookingService.cancelBooking(req.params.id as string, user?.id);
+  const bookingId = req.params.id;
+  const user = req.user;
+  const result = await BookingService.cancelBooking(bookingId as string, user?.id as string);
   sendResponse(res, {
     statusCode: 200,
     success: true,

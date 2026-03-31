@@ -1,7 +1,8 @@
 import status from "http-status";
-import { BookingStatus } from "../../../generated/enums";
+import { BookingStatus, UserRole } from "../../../generated/enums";
 import { prisma } from "../../../lib/prisma";
 import AppError from "../../errorHelpers/AppError";
+import { userSelectFields } from "../User/user.constant";
 
 const createBooking = async (payload: { scheduleId: string, userId: string, }) => {
   const { scheduleId, userId } = payload;
@@ -50,7 +51,9 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
     const booking = await tx.booking.findUnique({
       where: { id: newBooking.id },
       include: {
-        user: true,
+        user: {
+          select: userSelectFields
+        },
         bookingSeats: {
           include: {
             seat: true
@@ -64,8 +67,7 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
         },
       },
     });
-    const { password: _, ...userWithoutPassword } = booking!.user;
-    return { ...booking, user: userWithoutPassword };
+    return booking;
   });
   return result;
 };
@@ -96,7 +98,9 @@ const getMyBookings = async (userId: string) => {
 const getAllBookings = async () => {
   const result = await prisma.booking.findMany({
     include: {
-      user: true,
+      user: {
+        select: userSelectFields
+      },
       schedule: {
         include: {
           bus: true,
@@ -108,11 +112,16 @@ const getAllBookings = async () => {
   return result;
 };
 
-const getBookingById = async (id: string) => {
+const getBookingById = async (bookingId: string, userId: string, role: UserRole) => {
   const result = await prisma.booking.findUnique({
-    where: { id },
+    where: { id: bookingId },
     include: {
-      user: true,
+      user: {
+        select: userSelectFields,
+      },
+      bookingSeats: {
+        include: { seat: true },
+      },
       schedule: {
         include: {
           bus: true,
@@ -121,20 +130,44 @@ const getBookingById = async (id: string) => {
       },
     },
   });
+
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, 'Booking not found.');
+  }
+
+  const isAdminOrOperator = role === UserRole.ADMIN || role === UserRole.OPERATOR;
+  const isOwnBooking = result.userId === userId;
+
+  if (!isAdminOrOperator && !isOwnBooking) {
+    throw new AppError(status.FORBIDDEN, 'You are not authorized to view this booking.');
+  }
+
   return result;
 };
 
-const cancelBooking = async (id: string, userId: string) => {
-  const result = await prisma.booking.updateMany({
-    where: {
-      id,
-      userId,
-      status: BookingStatus.PENDING,
-    },
-    data: {
-      status: BookingStatus.CANCELLED,
-    },
+const cancelBooking = async (bookingId: string, userId: string) => {
+
+  const booking = await prisma.booking.findUnique({
+    where: { id: bookingId },
   });
+
+  if (!booking) {
+    throw new AppError(status.NOT_FOUND, 'Booking not found.');
+  }
+
+  if (booking.userId !== userId) {
+    throw new AppError(status.FORBIDDEN, 'You are not authorized to cancel this booking.');
+  }
+
+  if (booking.status !== BookingStatus.PENDING) {
+    throw new AppError(status.BAD_REQUEST, 'Only pending bookings can be cancelled.');
+  }
+
+  const result = await prisma.booking.update({
+    where: { id: bookingId },
+    data: { status: BookingStatus.CANCELLED },
+  });
+
   return result;
 };
 
