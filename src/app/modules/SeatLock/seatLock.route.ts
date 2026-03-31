@@ -10,7 +10,7 @@ const router = Router();
 // Lock seats (Passenger/Authenticated)
 router.post(
   '/',
-  checkAuth('PASSENGER', 'ADMIN', 'OPERATOR'),
+  checkAuth('PASSENGER'),
   validateRequest(SeatLockValidation.lockSeatsValidationSchema),
   SeatLockController.lockSeats
 );

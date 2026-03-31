@@ -1,8 +1,8 @@
-export interface TSeat {
-  busId: string;
-  number: string;
-  type: string;
-  row: number;
-  column: number;
-  price: number;
-}
+// export interface TSeat {
+//   busId: string;
+//   number: string;
+//   type: string;
+//   row: number;
+//   column: number;
+//   price: number;
+// }

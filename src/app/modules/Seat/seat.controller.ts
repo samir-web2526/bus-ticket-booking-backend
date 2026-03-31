@@ -3,15 +3,15 @@ import { Request, Response } from 'express';
 import { SeatService } from './seat.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
 
-const getSeatLayoutByBusId = catchAsync(async (req: Request, res: Response) => {
-  const result = await SeatService.getSeatLayoutByBusId(req.params.busId as string);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Seat layout fetched successfully',
-    data: result,
-  });
-});
+// const getSeatLayoutByBusId = catchAsync(async (req: Request, res: Response) => {
+//   const result = await SeatService.getSeatLayoutByBusId(req.params.busId as string);
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: 'Seat layout fetched successfully',
+//     data: result,
+//   });
+// });
 
 const getAvailableSeats = catchAsync(async (req: Request, res: Response) => {
   const result = await SeatService.getAvailableSeats(req.params.scheduleId as string);
@@ -24,6 +24,6 @@ const getAvailableSeats = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const SeatController = {
-  getSeatLayoutByBusId,
+  // getSeatLayoutByBusId,
   getAvailableSeats,
 };

@@ -4,11 +4,8 @@ import { SeatLockService } from './seatLock.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
 
 const lockSeats = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await SeatLockService.lockSeats({
-    ...req.body,
-    userId: user?.id,
-  });
+  const user = req.user;
+  const result = await SeatLockService.lockSeats(req.body, user?.id as string);
   sendResponse(res, {
     statusCode: 201,
     success: true,

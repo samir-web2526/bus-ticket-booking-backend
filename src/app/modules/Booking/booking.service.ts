@@ -1,5 +1,7 @@
+import status from "http-status";
 import { BookingStatus } from "../../../generated/enums";
 import { prisma } from "../../../lib/prisma";
+import AppError from "../../errorHelpers/AppError";
 
 const createBooking = async (payload: { scheduleId: string, userId: string, }) => {
   const { scheduleId, userId } = payload;
@@ -20,11 +22,9 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
       throw new Error('No active seat locks found. Please lock seats before booking.');
     }
 
-
     const totalFare = activeLocks.reduce((sum, lock) => sum + lock.seat.price, 0);
 
-    // 2. Create the booking
-    const booking = await tx.booking.create({
+    const newBooking = await tx.booking.create({
       data: {
         userId,
         scheduleId,
@@ -35,7 +35,7 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
 
     await tx.bookingSeat.createMany({
       data: activeLocks.map((lock) => ({
-        bookingId: booking.id,
+        bookingId: newBooking.id,
         seatId: lock.seatId,
       })),
     });
@@ -47,8 +47,8 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
       },
     });
 
-    return await tx.booking.findUnique({
-      where: { id: booking.id },
+    const booking = await tx.booking.findUnique({
+      where: { id: newBooking.id },
       include: {
         user: true,
         bookingSeats: {
@@ -64,9 +64,9 @@ const createBooking = async (payload: { scheduleId: string, userId: string, }) =
         },
       },
     });
-
+    const { password: _, ...userWithoutPassword } = booking!.user;
+    return { ...booking, user: userWithoutPassword };
   });
-
   return result;
 };
 
@@ -74,6 +74,9 @@ const getMyBookings = async (userId: string) => {
   const result = await prisma.booking.findMany({
     where: { userId },
     include: {
+      bookingSeats: {
+        include: { seat: true },
+      },
       schedule: {
         include: {
           bus: true,
@@ -82,6 +85,11 @@ const getMyBookings = async (userId: string) => {
       },
     },
   });
+
+  if (result.length === 0) {
+    throw new AppError(status.NOT_FOUND, 'No bookings found.');
+  }
+
   return result;
 };
 

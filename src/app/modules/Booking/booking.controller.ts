@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
 import { BookingService } from './booking.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
-import { string } from 'zod';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
+  const user = req.user;
   const scheduleId = req.body.scheduleId;
   const result = await BookingService.createBooking({
     userId: user?.id,
@@ -19,8 +18,8 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMyBookings = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await BookingService.getMyBookings(user?.id);
+  const user = req.user;
+  const result = await BookingService.getMyBookings(user?.id as string);
   sendResponse(res, {
     statusCode: 200,
     success: true,

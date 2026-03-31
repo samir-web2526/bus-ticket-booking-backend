@@ -1,15 +1,18 @@
+import status from "http-status";
 import { prisma } from "../../../lib/prisma";
+import AppError from "../../errorHelpers/AppError";
+import { BookingStatus } from "../../../generated/enums";
 
-const getSeatLayoutByBusId = async (busId: string) => {
-  const result = await prisma.seat.findMany({
-    where: { busId },
-    orderBy: [
-      { row: 'asc' },
-      { column: 'asc' },
-    ],
-  });
-  return result;
-};
+// const getSeatLayoutByBusId = async (busId: string) => {
+//   const result = await prisma.seat.findMany({
+//     where: { busId },
+//     orderBy: [
+//       { row: 'asc' },
+//       { column: 'asc' },
+//     ],
+//   });
+//   return result;
+// };
 
 const getAvailableSeats = async (scheduleId: string) => {
   const schedule = await prisma.schedule.findUnique({
@@ -18,15 +21,12 @@ const getAvailableSeats = async (scheduleId: string) => {
   });
 
   if (!schedule) {
-    throw new Error('Schedule not found');
+    throw new AppError(status.NOT_FOUND, 'No bus found for this schedule');
   }
 
-  // Get all seats for the bus
   const allSeats = await prisma.seat.findMany({
     where: { busId: schedule.busId },
   });
-
-  // Get currently locked seats (that haven't expired)
   const lockedSeats = await prisma.seatLock.findMany({
     where: {
       scheduleId,
@@ -35,18 +35,28 @@ const getAvailableSeats = async (scheduleId: string) => {
     select: { seatId: true },
   });
 
-  const lockedSeatIds = lockedSeats.map(ls => ls.seatId);
+  const bookedSeats = await prisma.bookingSeat.findMany({
+    where: {
+      booking: {
+        scheduleId,
+        status: { in: [BookingStatus.PENDING, BookingStatus.CONFIRMED] },
+      },
+    },
+    select: { seatId: true },
+  });
 
-  // Mark seats as available if not in lockedSeatIds
+  const lockedSeatIds = lockedSeats.map(ls => ls.seatId);
+  const bookedSeatIds = bookedSeats.map(bs => bs.seatId);
+
   const seatsWithStatus = allSeats.map(seat => ({
     ...seat,
-    isAvailable: !lockedSeatIds.includes(seat.id),
+    isAvailable: !lockedSeatIds.includes(seat.id) && !bookedSeatIds.includes(seat.id),
   }));
 
   return seatsWithStatus;
 };
 
 export const SeatService = {
-  getSeatLayoutByBusId,
+  // getSeatLayoutByBusId,
   getAvailableSeats,
 };
