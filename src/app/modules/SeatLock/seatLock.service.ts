@@ -55,7 +55,18 @@ const lockSeats = async (payload: TSeatLock, userId: string) => {
 };
 
 const releaseLock = async (id: string, userId: string) => {
-  const result = await prisma.seatLock.deleteMany({
+  const lock = await prisma.seatLock.findUnique({
+    where: { id },
+  });
+
+  if (!lock) {
+    throw new AppError(status.NOT_FOUND, 'Seat lock not found');
+  }
+
+  if (lock.userId !== userId) {
+    throw new AppError(status.FORBIDDEN, 'You are not authorized to release this seat lock');
+  }
+  const result = await prisma.seatLock.delete({
     where: {
       id,
       userId,
@@ -64,17 +75,23 @@ const releaseLock = async (id: string, userId: string) => {
   return result;
 };
 
-const cleanupExpiredLocks = async () => {
-  const result = await prisma.seatLock.deleteMany({
-    where: {
-      expiresAt: { lt: new Date() },
-    },
+const releaseAllLocks = async (scheduleId: string, userId: string) => {
+  const locks = await prisma.seatLock.findMany({
+    where: { scheduleId, userId },
   });
-  return result;
+
+  if (locks.length === 0) {
+    throw new AppError(status.NOT_FOUND, 'Seat lock not found');
+  };
+
+  await prisma.seatLock.deleteMany({
+    where: { scheduleId, userId },
+  });
+  return locks;
 };
 
 export const SeatLockService = {
   lockSeats,
   releaseLock,
-  cleanupExpiredLocks,
+  releaseAllLocks,
 };

@@ -15,8 +15,9 @@ const lockSeats = catchAsync(async (req: Request, res: Response) => {
 });
 
 const releaseLock = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await SeatLockService.releaseLock(req.params.id as string, user?.id);
+  const { id } = req.params;
+  const user = req.user;
+  const result = await SeatLockService.releaseLock(id as string, user?.id);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -25,7 +26,20 @@ const releaseLock = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const releaseAllLocks = catchAsync(async (req: Request, res: Response) => {
+  const { scheduleId } = req.params;
+  const user = req.user;
+  const result = await SeatLockService.releaseAllLocks(scheduleId as string, user?.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'All seat locks released successfully',
+    data: result,
+  });
+});
+
 export const SeatLockController = {
   lockSeats,
   releaseLock,
+  releaseAllLocks
 };

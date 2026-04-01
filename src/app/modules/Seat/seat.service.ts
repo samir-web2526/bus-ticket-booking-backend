@@ -3,17 +3,6 @@ import { prisma } from "../../../lib/prisma";
 import AppError from "../../errorHelpers/AppError";
 import { BookingStatus } from "../../../generated/enums";
 
-// const getSeatLayoutByBusId = async (busId: string) => {
-//   const result = await prisma.seat.findMany({
-//     where: { busId },
-//     orderBy: [
-//       { row: 'asc' },
-//       { column: 'asc' },
-//     ],
-//   });
-//   return result;
-// };
-
 const getAvailableSeats = async (scheduleId: string) => {
   const schedule = await prisma.schedule.findUnique({
     where: { id: scheduleId },
@@ -57,6 +46,5 @@ const getAvailableSeats = async (scheduleId: string) => {
 };
 
 export const SeatService = {
-  // getSeatLayoutByBusId,
   getAvailableSeats,
 };
