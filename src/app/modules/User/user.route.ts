@@ -35,7 +35,7 @@ router.get('/:id', checkAuth('ADMIN'), UserController.getUserById);
 router.patch(
   '/:id',
   checkAuth('ADMIN'),
-  validateRequest(UserValidation.updateUserValidationSchema),
+  validateRequest(UserValidation.updateUserByAdminValidationSchema),
   UserController.updateUser
 );
 

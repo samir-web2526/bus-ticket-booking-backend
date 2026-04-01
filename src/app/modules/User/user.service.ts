@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import { prisma } from "../../../lib/prisma";
-import { ICreateOperatorPayload } from "./user.interface";
+import { ICreateOperatorPayload, IUpdateUserByAdminPayload, IUpdateUserPayload } from "./user.interface";
 import { UserRole, UserStatus } from "../../../generated/enums";
 import AppError from "../../errorHelpers/AppError";
 import status from "http-status";
 import { paginationHelper } from "../../sharedfile";
-import { userSearchableFields } from "./user.constant";
+import { userSearchableFields, userSelectFields } from "./user.constant";
 
 
 const createUser = async (payload: ICreateOperatorPayload) => {
@@ -89,6 +89,7 @@ const getAllUsers = async (query: any) => {
     orderBy: {
       [sortBy]: sortOrder,
     },
+
   });
 
   const total = await prisma.user.count({
@@ -111,7 +112,8 @@ const getMe = async (userId: string, role: UserRole) => {
       id: userId,
       isDeleted: false,
     },
-    include: {
+    select: {
+      ...userSelectFields,
       operatorProfile: role === UserRole.OPERATOR,
       passengerProfile: role === UserRole.PASSENGER,
     },
@@ -121,47 +123,100 @@ const getMe = async (userId: string, role: UserRole) => {
     throw new AppError(status.NOT_FOUND, 'User not found');
   }
 
-  const { password: _, ...userWithoutPassword } = result;
-  return userWithoutPassword;
+  return result;
 };
 
-const updateMe = async (userId: string, payload: any) => {
+const updateMe = async (userId: string, payload: IUpdateUserPayload) => {
+  const { name, phone, profileImage } = payload;
   const result = await prisma.user.update({
     where: {
       id: userId,
+      isDeleted: false,
     },
-    data: payload,
+    data: {
+      name: name,
+      phone: phone,
+      profileImage: profileImage
+    },
+    select: {
+      ...userSelectFields,
+    },
   });
+
   return result;
 };
 
 const getUserById = async (id: string) => {
-  const result = await prisma.user.findUnique({
-    where: {
-      id,
-      isDeleted: false,
+  const user = await prisma.user.findUnique({
+    where: { id, isDeleted: false },
+    select: userSelectFields,
+  });
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, 'User not found.');
+  }
+
+  return prisma.user.findUnique({
+    where: { id },
+    select: {
+      ...userSelectFields,
+      operatorProfile: user.role === UserRole.OPERATOR,
+      passengerProfile: user.role === UserRole.PASSENGER,
     },
   });
-  return result;
 };
 
-const updateUser = async (id: string, payload: any) => {
+const updateUser = async (id: string, payload: IUpdateUserByAdminPayload) => {
+  const { name, email, phone, profileImage, status: userStatus } = payload;
+  const user = await prisma.user.findUnique({
+    where: { id, isDeleted: false },
+    select: userSelectFields,
+  });
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, 'User not found.');
+  };
+
   const result = await prisma.user.update({
     where: {
       id,
     },
-    data: payload,
+    data: {
+      name: name,
+      email: email,
+      phone: phone,
+      profileImage: profileImage,
+      status: userStatus,
+    },
+    select: {
+      ...userSelectFields,
+      operatorProfile: user.role === UserRole.OPERATOR,
+      passengerProfile: user.role === UserRole.PASSENGER,
+    },
+
   });
   return result;
 };
 
 const deleteUser = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id, isDeleted: false },
+  });
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, 'User not found.');
+  };
   const result = await prisma.user.update({
     where: {
       id,
     },
     data: {
       isDeleted: true,
+    },
+    select: {
+      ...userSelectFields,
+      operatorProfile: user.role === UserRole.OPERATOR,
+      passengerProfile: user.role === UserRole.PASSENGER,
     },
   });
   return result;

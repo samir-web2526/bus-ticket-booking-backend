@@ -19,15 +19,23 @@ const createUserValidationSchema = z.object({
 const updateUserValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),
+    phone: z.string().optional(),
+    profileImage: z.string().url().optional(),
+  }),
+});
+
+const updateUserByAdminValidationSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
     email: z.string().email().optional(),
     phone: z.string().optional(),
-    role: z.nativeEnum(UserRole).optional(),
-    status: z.nativeEnum(UserStatus).optional(),
     profileImage: z.string().url().optional(),
+    status: z.nativeEnum(UserStatus).optional(),
   }),
 });
 
 export const UserValidation = {
   createUserValidationSchema,
   updateUserValidationSchema,
+  updateUserByAdminValidationSchema
 };

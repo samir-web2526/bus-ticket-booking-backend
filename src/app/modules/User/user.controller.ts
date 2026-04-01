@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { UserService } from './user.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
+import { UserRole } from '../../../generated/enums';
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.createUser(req.body);
@@ -25,8 +26,8 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
-  const { id, role } = req.user;
-  const result = await UserService.getMe(id, role);
+  const { id: userId, role } = req.user;
+  const result = await UserService.getMe(userId, role as UserRole);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -36,8 +37,8 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateMe = catchAsync(async (req: Request, res: Response) => {
-  const user = (req as any).user;
-  const result = await UserService.updateMe(user.id, req.body);
+  const userId = req.user?.id;
+  const result = await UserService.updateMe(userId as string, req.body);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -47,7 +48,8 @@ const updateMe = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getUserById = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getUserById(req.params.id as string);
+  const { id } = req.params;
+  const result = await UserService.getUserById(id as string);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -57,7 +59,8 @@ const getUserById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.updateUser(req.params.id as string, req.body);
+  const { id } = req.params;
+  const result = await UserService.updateUser(id as string, req.body);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -67,7 +70,8 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.deleteUser(req.params.id as string);
+  const { id } = req.params;
+  const result = await UserService.deleteUser(id as string);
   sendResponse(res, {
     statusCode: 200,
     success: true,
