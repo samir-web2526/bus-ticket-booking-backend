@@ -4,7 +4,7 @@ import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import path from "path";
 import qs from "qs";
-import { auth } from "./lib/auth";
+// import { auth } from "./lib/auth";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 import { notFound } from "./app/middlewares/notFound";
 import { IndexRoutes } from "./app/routes";
@@ -34,7 +34,7 @@ app.use(
 );
 
 // Bettr auth hander
-app.use("/api/auth", toNodeHandler(auth));
+// app.use("/api/auth", toNodeHandler(auth));
 
 // Enable URL-encoded form data parsing
 app.use(express.urlencoded({ extended: true }));
