@@ -2,26 +2,25 @@
   "name": "bus-ticket-booking-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc && node scripts/fix-imports.js",
-    "lint:fix": "eslint src/**/*.ts --fix",
+    "build": "prisma generate && tsc",
     "migrate": "prisma migrate dev",
+    "postinstall": "prisma generate",
     "generate": "prisma generate",
     "seed": "tsx src/seedAdmin/seedAdmin.ts",
-    "lint": "eslint ./src/**/*"
+    "lint": "eslint ./src/**/*",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
     "bcrypt": "^6.0.0",
-    "better-auth": "^1.5.6",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -44,6 +43,7 @@
     "prisma": "^7.5.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.54.0"
   }
 }
