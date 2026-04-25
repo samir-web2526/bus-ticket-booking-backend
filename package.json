@@ -10,6 +10,7 @@
     "migrate": "prisma migrate dev",
     "postinstall": "prisma generate",
     "generate": "prisma generate",
+    "stripe:webhook": "stripe listen --forward-to localhost:5000/api/v1/payments/webhook/stripe",
     "seed": "tsx src/seedAdmin/seedAdmin.ts",
     "lint": "eslint ./src/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,6 +29,7 @@
     "http-status": "^2.1.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.20.0",
+    "stripe": "^22.1.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

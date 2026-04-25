@@ -20,6 +20,8 @@ interface EnvConfig {
     ADMIN_PASSWORD: string;
     ADMIN_NAME: string;
     ADMIN_PHONE: string;
+    STRIPE_SECRET_KEY: string;
+    STRIPE_WEBHOOK_SECRET: string;
 }
 
 
@@ -39,7 +41,9 @@ const loadEnvVariables = (): EnvConfig => {
         'ADMIN_EMAIL',
         'ADMIN_PASSWORD',
         'ADMIN_NAME',
-        'ADMIN_PHONE'
+        'ADMIN_PHONE',
+        'STRIPE_SECRET_KEY',
+        'STRIPE_WEBHOOK_SECRET'
     ]
 
     requireEnvVariable.forEach((variable) => {
@@ -64,6 +68,8 @@ const loadEnvVariables = (): EnvConfig => {
         ADMIN_PASSWORD: process.env.ADMIN_PASSWORD as string,
         ADMIN_NAME: process.env.ADMIN_NAME as string,
         ADMIN_PHONE: process.env.ADMIN_PHONE as string,
+        STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
+        STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,
     }
 }
 

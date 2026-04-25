@@ -14,7 +14,9 @@ import { catchAsync, sendResponse } from '../../sharedfile';
 // });
 
 const getAvailableSeats = catchAsync(async (req: Request, res: Response) => {
-  const result = await SeatService.getAvailableSeats(req.params.scheduleId as string);
+  const user = req.user;
+  const scheduleId = req.params.scheduleId as string;
+  const result = await SeatService.getAvailableSeats(scheduleId, user?.id as string);
   sendResponse(res, {
     statusCode: 200,
     success: true,

@@ -14,6 +14,20 @@ const lockSeats = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getActiveLocks = catchAsync(async (req: Request, res: Response) => {
+  const scheduleId = req.params.scheduleId as string;
+  const user = req.user;
+
+  const result = await SeatLockService.getActiveLocks(scheduleId, user?.id as string);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Active locks fetched successfully',
+    data: result,
+  });
+});
+
 const releaseLock = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = req.user;
@@ -40,6 +54,7 @@ const releaseAllLocks = catchAsync(async (req: Request, res: Response) => {
 
 export const SeatLockController = {
   lockSeats,
+  getActiveLocks,
   releaseLock,
   releaseAllLocks
 };

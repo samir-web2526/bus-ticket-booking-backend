@@ -79,16 +79,68 @@ const getAllRoutes = async (query: any) => {
   }
 };
 
+// const getRouteById = async (id: string) => {
+//   const result = await prisma.route.findUnique({
+//     where: { id },
+//     include: {
+//       schedules: {
+//         select: {
+//           id: true,
+//           departure: true,
+//           arrival: true,
+//           status: true,
+//           bus: {
+//             select: {
+//               id: true,
+//               name: true,
+//               type: true,
+//               totalSeats: true,
+//               operator: {
+//                 select: {
+//                   id: true,
+//                   name: true,
+//                   email: true,
+//                   phone: true,
+//                   profileImage: true,
+//                 },
+//               },
+//             },
+//           },
+//         },
+//       },
+//     }
+//   });
+//   if (!result) {
+//     throw new AppError(status.NOT_FOUND, 'Route not found');
+//   };
+//   return result;
+// };
+
 const getRouteById = async (id: string) => {
   const result = await prisma.route.findUnique({
     where: { id },
+    include: {
+      schedules: {
+        orderBy: {
+          departure: 'asc',
+        },
+        include: {
+          bus: {
+            include: {
+              operator: true,
+            },
+          },
+        },
+      },
+    },
   });
+
   if (!result) {
     throw new AppError(status.NOT_FOUND, 'Route not found');
-  };
+  }
+
   return result;
 };
-
 const updateRoute = async (id: string, payload: any) => {
   const isRouteExist = await prisma.route.findUnique({
     where: { id },

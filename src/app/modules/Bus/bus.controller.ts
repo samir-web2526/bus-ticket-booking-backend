@@ -24,6 +24,17 @@ const getAllBuses = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMyBuses = catchAsync(async (req: Request, res: Response) => {
+  const operator = req.user;
+  const result = await BusService.getMyBuses(operator.id as string, req.query);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'My buses fetched successfully',
+    data: result,
+  });
+});
+
 const getBusById = catchAsync(async (req: Request, res: Response) => {
   const busId = req.params.id as string;
   const result = await BusService.getBusById(busId);
@@ -62,6 +73,7 @@ const deleteBus = catchAsync(async (req: Request, res: Response) => {
 export const BusController = {
   createBus,
   getAllBuses,
+  getMyBuses,
   getBusById,
   updateBus,
   deleteBus,

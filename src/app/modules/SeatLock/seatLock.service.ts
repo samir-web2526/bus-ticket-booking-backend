@@ -54,6 +54,21 @@ const lockSeats = async (payload: TSeatLock, userId: string) => {
   return result;
 };
 
+const getActiveLocks = async (scheduleId: string, userId: string) => {
+  const locks = await prisma.seatLock.findMany({
+    where: {
+      scheduleId,
+      userId,
+      expiresAt: { gte: new Date() }
+    },
+    include: { seat: true },
+  });
+
+  return locks;
+};
+
+
+
 const releaseLock = async (id: string, userId: string) => {
   const lock = await prisma.seatLock.findUnique({
     where: { id },
@@ -92,6 +107,7 @@ const releaseAllLocks = async (scheduleId: string, userId: string) => {
 
 export const SeatLockService = {
   lockSeats,
+  getActiveLocks,
   releaseLock,
   releaseAllLocks,
 };

@@ -1,42 +1,62 @@
 import { Request, Response } from 'express';
-
 import { PaymentService } from './payment.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
 
 const initializePayment = catchAsync(async (req: Request, res: Response) => {
-  const result = await PaymentService.initializePayment(req.body);
+  const user = req.user;
+  const { bookingId } = req.body;
+
+  const result = await PaymentService.initializePayment(bookingId, user?.id as string);
+
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Payment initialized successfully',
+    message: 'Payment initialized successfully. Redirect to checkout URL.',
     data: result,
   });
 });
 
-const handleStripeWebhook = catchAsync(async (req: Request, res: Response) => {
-  // We specify req.body in generic catchAsync, 
-  // but for Stripe webhooks, we may need the raw body if it is not already provided.
-  const result = await PaymentService.handleStripeWebhook(req.body);
+const handleStripeWebhook = async (req: Request, res: Response) => {
+  // Webhook needs raw body for signature verification
+  // Do NOT wrap in catchAsync — Stripe expects specific response format
+  try {
+    const signature = req.headers['stripe-signature'] as string;
+    const result = await PaymentService.handleStripeWebhook(req.body, signature);
+    res.status(200).json(result);
+  } catch (error: any) {
+    console.error('Stripe webhook error:', error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getPaymentByBookingId = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const { bookingId } = req.params;
+
+  const result = await PaymentService.getPaymentByBookingId(bookingId as string, user?.id as string);
+
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Stripe webhook processed',
+    message: 'Payment details fetched successfully',
     data: result,
   });
 });
 
-const handleSSLCommerzWebhook = catchAsync(async (req: Request, res: Response) => {
-  const result = await PaymentService.handleSSLCommerzWebhook(req.body);
+const getAllPayments = catchAsync(async (req: Request, res: Response) => {
+  const result = await PaymentService.getAllPayments(req.query);
+
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'SSLCommerz webhook processed',
-    data: result,
+    message: 'All payments fetched successfully',
+    data: result.data,
   });
 });
 
 export const PaymentController = {
   initializePayment,
   handleStripeWebhook,
-  handleSSLCommerzWebhook,
+  getPaymentByBookingId,
+  getAllPayments,
 };

@@ -152,6 +152,103 @@ const getAllBookings = async (query: any) => {
   }
 };
 
+const getOperatorBookings = async (
+  operatorId: string,
+  query: any
+) => {
+
+  const { status: bookingStatus } = query;
+
+  const {
+    page,
+    limit,
+    skip,
+    sortBy,
+    sortOrder
+  } = paginationHelper.calculatePagination(query);
+
+  const andConditions: any[] = [];
+
+  // operator's own buses bookings filter
+  andConditions.push({
+    schedule: {
+      bus: {
+        operatorId
+      }
+    }
+  });
+
+  // optional booking status filter
+  if (bookingStatus) {
+    andConditions.push({
+      status: bookingStatus as BookingStatus
+    });
+  }
+
+  const whereConditions = {
+    AND: andConditions
+  };
+
+  const result = await prisma.booking.findMany({
+
+    where: whereConditions,
+
+    skip,
+    take: limit,
+
+    orderBy: {
+      [sortBy]: sortOrder
+    },
+
+    include: {
+
+      user: {
+        select: userSelectFields
+      },
+
+      bookingSeats: {
+        include: {
+          seat: true
+        }
+      },
+
+      schedule: {
+        include: {
+          bus: true,
+          route: true
+        }
+      }
+
+    }
+
+  });
+
+  if (result.length === 0) {
+
+    throw new AppError(
+      status.NOT_FOUND,
+      "No bookings found."
+    );
+
+  }
+
+  const total = await prisma.booking.count({
+    where: whereConditions
+  });
+
+  return {
+
+    meta: {
+      page,
+      limit,
+      total
+    },
+
+    data: result
+
+  };
+};
+
 const getBookingById = async (bookingId: string, userId: string, role: UserRole) => {
   const result = await prisma.booking.findUnique({
     where: { id: bookingId },
@@ -215,6 +312,7 @@ export const BookingService = {
   createBooking,
   getMyBookings,
   getAllBookings,
+  getOperatorBookings,
   getBookingById,
   cancelBooking,
 };

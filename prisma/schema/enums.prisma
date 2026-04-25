@@ -29,3 +29,8 @@ enum SeatType {
   DELUXE
   VIP
 }
+
+enum PaymentStatus {
+  PAID
+  UNPAID
+}

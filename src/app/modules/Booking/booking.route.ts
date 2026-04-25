@@ -15,10 +15,12 @@ router.post(
 );
 
 // My bookings (Passenger)
-router.get('/', checkAuth('PASSENGER'), BookingController.getMyBookings);
+router.get('/my-bookings', checkAuth('PASSENGER'), BookingController.getMyBookings);
 
 // All bookings (Admin/Operator)
-router.get('/all', checkAuth('ADMIN', 'OPERATOR'), BookingController.getAllBookings);
+router.get('/all-bookings', checkAuth('ADMIN', 'OPERATOR'), BookingController.getAllBookings);
+
+router.get('/operator', checkAuth('OPERATOR'), BookingController.getOperatorBookings);
 
 // Booking details (Authenticated)
 router.get('/:id', checkAuth('PASSENGER', 'ADMIN', 'OPERATOR'), BookingController.getBookingById);

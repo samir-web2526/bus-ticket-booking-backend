@@ -15,6 +15,8 @@ router.post(
 
 router.get('/', BusController.getAllBuses);
 
+router.get('/my', checkAuth('OPERATOR', 'ADMIN'), BusController.getMyBuses);
+
 router.get('/:id', BusController.getBusById);
 
 router.patch(

@@ -28,31 +28,68 @@ const getAllSchedules = async (query: any) => {
 
   const andConditions: any[] = [];
 
-  if (sourceCity) {
+
+
+  // if (sourceCity) {
+  //   andConditions.push({
+  //     route: {
+  //       sourceCity
+  //     }
+  //   });
+  // }
+
+  // if (destinationCity) {
+  //   andConditions.push({
+  //     route: {
+  //       destinationCity
+  //     }
+  //   });
+  // }
+
+  // if (startDate && endDate) {
+  //   andConditions.push({
+  //     departure: {
+  //       gte: startDate,
+  //       lte: endDate
+  //     }
+  //   })
+  // }
+
+  // const validSource =
+  //   sourceCity && sourceCity !== "ALL";
+
+  // const validDestination =
+  //   destinationCity && destinationCity !== "ALL";
+
+  // ✅ FIXED ROUTE FILTER
+  if (sourceCity || destinationCity) {
     andConditions.push({
       route: {
-        sourceCity
-      }
+        ...(sourceCity && {
+          sourceCity: {
+            contains: sourceCity,
+            mode: "insensitive",
+          },
+        }),
+        ...(destinationCity && {
+          destinationCity: {
+            contains: destinationCity,
+            mode: "insensitive",
+          },
+        }),
+      },
     });
   }
 
-  if (destinationCity) {
-    andConditions.push({
-      route: {
-        destinationCity
-      }
-    });
-  }
-
+  // ✅ DATE FILTER
   if (startDate && endDate) {
     andConditions.push({
       departure: {
         gte: startDate,
-        lte: endDate
-      }
-    })
+        lte: endDate,
+      },
+    });
   }
-
   const whereCondition = andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.schedule.findMany({

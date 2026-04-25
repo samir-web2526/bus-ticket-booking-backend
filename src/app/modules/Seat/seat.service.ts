@@ -3,7 +3,7 @@ import { prisma } from "../../../lib/prisma";
 import AppError from "../../errorHelpers/AppError";
 import { BookingStatus } from "../../../generated/enums";
 
-const getAvailableSeats = async (scheduleId: string) => {
+const getAvailableSeats = async (scheduleId: string, userId: string) => {
   const schedule = await prisma.schedule.findUnique({
     where: { id: scheduleId },
     include: { bus: true },
@@ -21,8 +21,9 @@ const getAvailableSeats = async (scheduleId: string) => {
       scheduleId,
       expiresAt: { gte: new Date() },
     },
-    select: { seatId: true },
+    select: { seatId: true, userId: true }, // ✅ userId যোগ করো
   });
+
 
   const bookedSeats = await prisma.bookingSeat.findMany({
     where: {
@@ -34,7 +35,9 @@ const getAvailableSeats = async (scheduleId: string) => {
     select: { seatId: true },
   });
 
-  const lockedSeatIds = lockedSeats.map(ls => ls.seatId);
+  const lockedSeatIds = lockedSeats
+    .filter(ls => ls.userId !== userId)
+    .map(ls => ls.seatId);
   const bookedSeatIds = bookedSeats.map(bs => bs.seatId);
 
   const seatsWithStatus = allSeats.map(seat => ({

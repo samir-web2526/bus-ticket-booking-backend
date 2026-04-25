@@ -85,6 +85,11 @@ export type BookingSeat = Prisma.BookingSeatModel
  */
 export type Bus = Prisma.BusModel
 /**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
  * Model Route
  * 
  */

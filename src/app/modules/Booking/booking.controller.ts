@@ -39,6 +39,17 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getOperatorBookings = catchAsync(async (req: Request, res: Response) => {
+  const operator = req.user;
+  const result = await BookingService.getOperatorBookings(operator?.id as string, req.query);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Operator bookings fetched successfully',
+    data: result,
+  });
+});
+
 const getBookingById = catchAsync(async (req: Request, res: Response) => {
   const bookingId = req.params.id;
   const { id: userId, role } = req.user;
@@ -67,6 +78,7 @@ export const BookingController = {
   createBooking,
   getMyBookings,
   getAllBookings,
+  getOperatorBookings,
   getBookingById,
   cancelBooking,
 };

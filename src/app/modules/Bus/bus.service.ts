@@ -116,6 +116,121 @@ const getAllBuses = async (query: any) => {
   }
 };
 
+const getMyBuses = async (
+  operatorId: string,
+  query: any
+) => {
+
+  const { search, type, isActive } = query;
+
+  const {
+    page,
+    limit,
+    skip,
+    sortBy,
+    sortOrder
+  } =
+    paginationHelper.calculatePagination(query);
+
+  const andConditions: any[] = [];
+
+  // only operator's buses
+  andConditions.push({
+    operatorId
+  });
+
+  // search filter
+  if (search) {
+
+    andConditions.push({
+      OR: busSearchableFields.map(
+        (field) => ({
+          [field]: {
+            contains: search,
+            mode: "insensitive"
+          }
+        })
+      )
+    });
+
+  }
+
+  // type filter
+  if (type) {
+
+    andConditions.push({
+      type
+    });
+
+  }
+
+  // active filter
+  if (isActive !== undefined) {
+
+    andConditions.push({
+      isActive: isActive === "true"
+    });
+
+  }
+
+  // soft delete protection
+  andConditions.push({
+    isDeleted: false
+  });
+
+  const whereConditions = {
+    AND: andConditions
+  };
+
+  const result =
+    await prisma.bus.findMany({
+
+      where: whereConditions,
+
+      skip,
+      take: limit,
+
+      orderBy: {
+        [sortBy]: sortOrder
+      },
+
+      include: {
+
+        operator: {
+
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+            profileImage: true
+          }
+
+        }
+
+      }
+
+    });
+  console.log(result);
+  const total =
+    await prisma.bus.count({
+      where: whereConditions
+    });
+
+  return {
+
+    data: result,
+
+    meta: {
+      page,
+      limit,
+      total
+    }
+
+  };
+
+};
+
 const getBusById = async (busId: string) => {
   const result = await prisma.bus.findUnique({
     where: { id: busId, isDeleted: false },
@@ -222,6 +337,7 @@ const deleteBus = async (id: string, userId: string, role: UserRole) => {
 export const BusService = {
   createBus,
   getAllBuses,
+  getMyBuses,
   getBusById,
   updateBus,
   deleteBus,
