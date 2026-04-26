@@ -78,7 +78,7 @@ const login = async (payload: ILoginPayload) => {
 
   const jwtPayload = {
     id: user.id,
-    name:user.name,
+    name: user.name,
     email: user.email,
     role: user.role,
   };
@@ -121,7 +121,7 @@ const refreshToken = async (token: string) => {
     throw new AppError(status.FORBIDDEN, "User not authorized");
   }
 
-  const jwtPayload = { id: user.id,name:user.name, email: user.email, role: user.role };
+  const jwtPayload = { id: user.id, name: user.name, email: user.email, role: user.role };
 
   const accessToken = jwtUtils.createToken(
     jwtPayload,
