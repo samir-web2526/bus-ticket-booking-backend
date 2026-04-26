@@ -4,62 +4,65 @@ import AppError from "../../errorHelpers/AppError";
 import { paginationHelper } from "../../sharedfile";
 import { TSchedule } from "./schedule.interface";
 
-const createSchedule = async (payload: TSchedule) => {
-  const { busId, routeId, departure, arrival, status } = payload
+const createSchedule = async (payload: TSchedule, operatorId: string) => {
+
+  const bus = await prisma.bus.findUnique({
+    where: { id: payload.busId },
+    select: { operatorId: true, isDeleted: true, isActive: true },
+  });
+
+  if (!bus) {
+    throw new AppError(status.NOT_FOUND, 'Bus not found');
+  }
+
+  if (bus.isDeleted || !bus.isActive) {
+    throw new AppError(status.BAD_REQUEST, 'Bus is not available for scheduling');
+  }
+
+  if (bus.operatorId !== operatorId) {
+    throw new AppError(status.FORBIDDEN, 'You are not authorized to schedule this bus');
+  }
+
+  if (new Date(payload.departure) < new Date()) {
+    throw new AppError(status.BAD_REQUEST, 'Departure time cannot be in the past');
+  }
+
+  if (new Date(payload.arrival) <= new Date(payload.departure)) {
+    throw new AppError(status.BAD_REQUEST, 'Arrival time must be after departure time');
+  }
+
   const result = await prisma.schedule.create({
     data: {
       ...payload,
-      status: payload.status ?? 'scheduled'
+      status: payload.status ?? 'scheduled',
     },
     include: {
       bus: true,
       route: true,
     },
   });
+
   return result;
 };
 
 const getAllSchedules = async (query: any) => {
-  const { sourceCity, destinationCity, date } = query;
+  const { sourceCity, destinationCity, date, busType, search } = query;
   const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
 
   const startDate = date ? new Date(new Date(date).setHours(0, 0, 0, 0)) : undefined;
   const endDate = date ? new Date(new Date(date).setHours(23, 59, 59, 999)) : undefined;
 
+
   const andConditions: any[] = [];
 
+  if (search) {
+    andConditions.push({
+      OR: [
+        { bus: { name: { contains: search, mode: 'insensitive' } } },
+      ],
+    });
+  }
 
-
-  // if (sourceCity) {
-  //   andConditions.push({
-  //     route: {
-  //       sourceCity
-  //     }
-  //   });
-  // }
-
-  // if (destinationCity) {
-  //   andConditions.push({
-  //     route: {
-  //       destinationCity
-  //     }
-  //   });
-  // }
-
-  // if (startDate && endDate) {
-  //   andConditions.push({
-  //     departure: {
-  //       gte: startDate,
-  //       lte: endDate
-  //     }
-  //   })
-  // }
-
-  // const validSource =
-  //   sourceCity && sourceCity !== "ALL";
-
-  // const validDestination =
-  //   destinationCity && destinationCity !== "ALL";
 
   // ✅ FIXED ROUTE FILTER
   if (sourceCity || destinationCity) {
@@ -81,12 +84,28 @@ const getAllSchedules = async (query: any) => {
     });
   }
 
+  if (busType && busType !== 'ALL') {
+    andConditions.push({
+      bus: {
+        type: busType,
+      },
+    });
+  }
+
   // ✅ DATE FILTER
+  // যদি user date দেয়
   if (startDate && endDate) {
     andConditions.push({
       departure: {
         gte: startDate,
         lte: endDate,
+      },
+    });
+  } else {
+    // ✅ date না দিলে শুধু আজকের বা ভবিষ্যতের schedule দেখাবে
+    andConditions.push({
+      departure: {
+        gte: new Date(),
       },
     });
   }

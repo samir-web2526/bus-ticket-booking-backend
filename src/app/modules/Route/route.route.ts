@@ -17,6 +17,8 @@ router.post(
 // Get all routes (Public)
 router.get('/', RouteController.getAllRoutes);
 
+router.get('/dropdown', checkAuth('OPERATOR'), RouteController.getAllRoutesForDropdown);
+
 // Get specific route (Public)
 router.get('/:id', RouteController.getRouteById);
 

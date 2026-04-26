@@ -3,7 +3,8 @@ import { ScheduleService } from './schedule.service';
 import { catchAsync, sendResponse } from '../../sharedfile';
 
 const createSchedule = catchAsync(async (req: Request, res: Response) => {
-  const result = await ScheduleService.createSchedule(req.body);
+  const operatorId = req.user?.id;
+  const result = await ScheduleService.createSchedule(req.body, operatorId as string);
   sendResponse(res, {
     statusCode: 201,
     success: true,

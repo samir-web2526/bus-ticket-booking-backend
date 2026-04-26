@@ -22,6 +22,16 @@ const getAllRoutes = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllRoutesForDropdown = catchAsync(async (req, res) => {
+  const result = await RouteService.getAllRoutesForDropdown();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Routes fetched successfully',
+    data: result,
+  });
+});
+
 const getRouteById = catchAsync(async (req: Request, res: Response) => {
   const result = await RouteService.getRouteById(req.params.id as string);
   sendResponse(res, {
@@ -55,6 +65,7 @@ const deleteRoute = catchAsync(async (req: Request, res: Response) => {
 export const RouteController = {
   createRoute,
   getAllRoutes,
+  getAllRoutesForDropdown,
   getRouteById,
   updateRoute,
   deleteRoute,

@@ -8,6 +8,19 @@ import { paginationHelper } from "../../sharedfile";
 const createBooking = async (payload: { scheduleId: string, userId: string, }) => {
   const { scheduleId, userId } = payload;
 
+  const schedule = await prisma.schedule.findUnique({
+    where: { id: scheduleId },
+  });
+
+  if (!schedule) {
+    throw new AppError(status.NOT_FOUND, 'Schedule not found.');
+  }
+
+  if (new Date(schedule.departure) < new Date()) {
+    throw new AppError(status.BAD_REQUEST, 'Cannot book a past schedule.');
+  }
+
+
   const result = await prisma.$transaction(async (tx) => {
     const activeLocks = await tx.seatLock.findMany({
       where: {

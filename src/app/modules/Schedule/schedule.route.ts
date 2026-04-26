@@ -9,7 +9,7 @@ const router = Router();
 // Create schedule (Operator/Admin)
 router.post(
   '/',
-  checkAuth('OPERATOR', 'ADMIN'),
+  checkAuth('OPERATOR'),
   validateRequest(ScheduleValidation.createScheduleValidationSchema),
   ScheduleController.createSchedule
 );
@@ -23,12 +23,12 @@ router.get('/:id', ScheduleController.getScheduleById);
 // Update schedule (Operator/Admin)
 router.patch(
   '/:id',
-  checkAuth('OPERATOR', 'ADMIN'),
+  checkAuth('OPERATOR'),
   validateRequest(ScheduleValidation.updateScheduleValidationSchema),
   ScheduleController.updateSchedule
 );
 
 // Delete schedule (Operator/Admin)
-router.delete('/:id', checkAuth('OPERATOR', 'ADMIN'), ScheduleController.deleteSchedule);
+router.delete('/:id', checkAuth('OPERATOR'), ScheduleController.deleteSchedule);
 
 export const ScheduleRoutes = router;

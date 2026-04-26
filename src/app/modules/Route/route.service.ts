@@ -20,64 +20,64 @@ const createRoute = async (payload: TRoute) => {
   return result;
 };
 
-const getAllRoutes = async (query: any) => {
-  const { search } = query;
-  const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
+// const getAllRoutes = async (query: any) => {
+//   const { search } = query;
+//   const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
 
-  const andConditions: any[] = [];
+//   const andConditions: any[] = [];
 
-  if (search) {
-    andConditions.push({
-      OR: routeSearchableFields.map((field) => ({
-        [field]: {
-          contains: search,
-          mode: 'insensitive',
-        },
-      })),
-    });
-  }
+//   if (search) {
+//     andConditions.push({
+//       OR: routeSearchableFields.map((field) => ({
+//         [field]: {
+//           contains: search,
+//           mode: 'insensitive',
+//         },
+//       })),
+//     });
+//   }
 
-  const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
+//   const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.route.findMany({
-    where: whereConditions,
-    skip,
-    take: limit,
-    orderBy: { [sortBy]: sortOrder },
-    include: {
-      schedules: {
-        select: {
-          id: true,
-          departure: true,
-          arrival: true,
-          status: true,
-          bus: {
-            select: {
-              id: true,
-              name: true,
-              type: true,
-              totalSeats: true,
-              operator: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  phone: true,
-                  profileImage: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    }
-  });
-  const total = await prisma.route.count({ where: whereConditions });
-  return {
-    data: result,
-    meta: { page, limit, total }
-  }
-};
+//   const result = await prisma.route.findMany({
+//     where: whereConditions,
+//     skip,
+//     take: limit,
+//     orderBy: { [sortBy]: sortOrder },
+//     include: {
+//       schedules: {
+//         select: {
+//           id: true,
+//           departure: true,
+//           arrival: true,
+//           status: true,
+//           bus: {
+//             select: {
+//               id: true,
+//               name: true,
+//               type: true,
+//               totalSeats: true,
+//               operator: {
+//                 select: {
+//                   id: true,
+//                   name: true,
+//                   email: true,
+//                   phone: true,
+//                   profileImage: true,
+//                 },
+//               },
+//             },
+//           },
+//         },
+//       },
+//     }
+//   });
+//   const total = await prisma.route.count({ where: whereConditions });
+//   return {
+//     data: result,
+//     meta: { page, limit, total }
+//   }
+// };
 
 // const getRouteById = async (id: string) => {
 //   const result = await prisma.route.findUnique({
@@ -116,13 +116,106 @@ const getAllRoutes = async (query: any) => {
 //   return result;
 // };
 
+const getAllRoutes = async (query: any) => {
+  const { search } = query;
+  const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
+
+  const andConditions: any[] = [];
+
+  if (search) {
+    andConditions.push({
+      OR: routeSearchableFields.map((field) => ({
+        [field]: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  andConditions.push({
+    schedules: {
+      some: {
+        departure: {
+          gte: new Date(),
+        },
+      },
+    },
+  });
+
+  const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
+  console.log("Current server time:", new Date().toISOString());
+  console.log("Where conditions:", JSON.stringify(whereConditions, null, 2));
+
+  const result = await prisma.route.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: { [sortBy]: sortOrder },
+    include: {
+      schedules: {
+        where: {
+          departure: {
+            gte: new Date(),
+          },
+        },
+        select: {
+          id: true,
+          departure: true,
+          arrival: true,
+          status: true,
+          bus: {
+            select: {
+              id: true,
+              name: true,
+              type: true,
+              totalSeats: true,
+              operator: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  phone: true,
+                  profileImage: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const total = await prisma.route.count({ where: whereConditions });
+
+  return {
+    data: result,
+    meta: { page, limit, total },
+  };
+};
+
+const getAllRoutesForDropdown = async () => {
+  return await prisma.route.findMany({
+    select: {
+      id: true,
+      sourceCity: true,
+      destinationCity: true,
+      distanceKm: true,
+      estimatedTimeMinutes: true,
+    },
+    orderBy: { sourceCity: 'asc' },
+  });
+};
+
 const getRouteById = async (id: string) => {
   const result = await prisma.route.findUnique({
     where: { id },
     include: {
       schedules: {
-        orderBy: {
-          departure: 'asc',
+        where: {
+          departure: {
+            gte: new Date(),
+          },
         },
         include: {
           bus: {
@@ -169,6 +262,7 @@ const deleteRoute = async (id: string) => {
 export const RouteService = {
   createRoute,
   getAllRoutes,
+  getAllRoutesForDropdown,
   getRouteById,
   updateRoute,
   deleteRoute,
