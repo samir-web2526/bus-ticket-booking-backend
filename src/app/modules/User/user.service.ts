@@ -126,26 +126,6 @@ const getMe = async (userId: string, role: UserRole) => {
   return result;
 };
 
-const updateMe = async (userId: string, payload: IUpdateUserPayload) => {
-  const { name, phone, profileImage } = payload;
-  const result = await prisma.user.update({
-    where: {
-      id: userId,
-      isDeleted: false,
-    },
-    data: {
-      name: name,
-      phone: phone,
-      profileImage: profileImage
-    },
-    select: {
-      ...userSelectFields,
-    },
-  });
-
-  return result;
-};
-
 const getUserById = async (id: string) => {
   const user = await prisma.user.findUnique({
     where: { id, isDeleted: false },
@@ -222,12 +202,77 @@ const deleteUser = async (id: string) => {
   return result;
 };
 
+const getOperatorPassengers = async (operatorId: string, query: any) => {
+  const { search, status: passengerStatus } = query;
+  const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(query);
+
+  const andConditions: any[] = [];
+
+  andConditions.push({
+    bookings: {
+      some: {
+        schedule: {
+          bus: {
+            operatorId: operatorId,
+          }
+        }
+      }
+    }
+  });
+
+  if (search) {
+    andConditions.push({
+      OR: userSearchableFields.map((field) => ({
+        [field]: {
+          contains: search,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  if (passengerStatus) {
+    andConditions.push({ status: passengerStatus });
+  }
+
+  andConditions.push({ isDeleted: false });
+  andConditions.push({ role: UserRole.PASSENGER });
+
+  const whereConditions = { AND: andConditions };
+
+  const result = await prisma.user.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    select: {
+      ...userSelectFields,
+      passengerProfile: true,
+    },
+  });
+
+  const total = await prisma.user.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 export const UserService = {
   createUser,
   getAllUsers,
   getMe,
-  updateMe,
   getUserById,
   updateUser,
   deleteUser,
+  getOperatorPassengers
 };

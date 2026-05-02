@@ -5,6 +5,10 @@ export const userSelectFields = {
     email: true,
     phone: true,
     role: true,
+    status: true,
+    isVerified: true,
+    profileImage: true,
     createdAt: true,
     updatedAt: true,
+    isDeleted: true,
 };

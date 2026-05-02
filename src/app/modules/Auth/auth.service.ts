@@ -41,7 +41,6 @@ const register = async (payload: IRegisterPayload) => {
         dateOfBirth: otherData.dateOfBirth
           ? new Date(otherData.dateOfBirth)
           : null,
-        emergencyContact: otherData.emergencyContact ?? null,
       },
     });
 

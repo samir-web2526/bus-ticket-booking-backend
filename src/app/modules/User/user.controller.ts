@@ -36,16 +36,6 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const updateMe = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.id;
-  const result = await UserService.updateMe(userId as string, req.body);
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Profile updated successfully',
-    data: result,
-  });
-});
 
 const getUserById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -80,12 +70,24 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getOperatorPassengers = catchAsync(async (req: Request, res: Response) => {
+  const operatorId = req.user?.id as string;
+  const result = await UserService.getOperatorPassengers(operatorId, req.query);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Operator passengers fetched successfully',
+    meta: result.meta,
+    data: result.data,
+  })
+})
+
 export const UserController = {
   createUser,
   getAllUsers,
   getMe,
-  updateMe,
   getUserById,
   updateUser,
   deleteUser,
+  getOperatorPassengers
 };

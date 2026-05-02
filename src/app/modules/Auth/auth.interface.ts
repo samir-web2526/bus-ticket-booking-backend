@@ -6,7 +6,6 @@ export interface IRegisterPayload {
   profileImage?: string;
   gender?: string;
   dateOfBirth?: string;
-  emergencyContact?: string;
 }
 
 export interface ILoginPayload {

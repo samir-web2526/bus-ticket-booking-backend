@@ -20,13 +20,7 @@ router.get('/', checkAuth('ADMIN'), UserController.getAllUsers);
 // Get current user profile (Authenticated)
 router.get('/me', checkAuth('ADMIN', 'OPERATOR', 'PASSENGER'), UserController.getMe);
 
-// Update own profile (Authenticated)
-router.patch(
-  '/me',
-  checkAuth('ADMIN', 'OPERATOR', 'PASSENGER'),
-  validateRequest(UserValidation.updateUserValidationSchema),
-  UserController.updateMe
-);
+router.get('/operator/passengers', checkAuth('OPERATOR'), UserController.getOperatorPassengers);
 
 // Get user by ID (Admin only)
 router.get('/:id', checkAuth('ADMIN'), UserController.getUserById);
@@ -40,6 +34,6 @@ router.patch(
 );
 
 // Delete user (Admin only)
-router.delete('/:id', checkAuth('ADMIN'), UserController.deleteUser);
+router.delete('/:id', checkAuth('ADMIN', 'OPERATOR'), UserController.deleteUser);
 
 export const UserRoutes = router;
