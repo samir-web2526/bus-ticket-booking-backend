@@ -16,11 +16,11 @@ router.post(
 );
 
 // Stripe Webhook (Public — uses raw body for signature verification)
-router.post(
-  '/webhook/stripe',
-  express.raw({ type: 'application/json' }),
-  PaymentController.handleStripeWebhook
-);
+// router.post(
+//   '/webhook/stripe',
+//   express.raw({ type: 'application/json' }),
+//   PaymentController.handleStripeWebhook
+// );
 
 // Get payment by booking ID (Authenticated)
 router.get(

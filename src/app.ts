@@ -93,6 +93,11 @@ app.use(
 );
 
 // ⚠️ Stripe Webhook — MUST be before express.json() to receive raw body
+// app.post(
+//   "/api/v1/payments/webhook/stripe",
+//   express.raw({ type: "application/json" }),
+//   PaymentController.handleStripeWebhook
+// );
 app.post(
   "/api/v1/payments/webhook/stripe",
   express.raw({ type: "application/json" }),

@@ -16,16 +16,34 @@ const initializePayment = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// const handleStripeWebhook = async (req: Request, res: Response) => {
+//   // Webhook needs raw body for signature verification
+//   // Do NOT wrap in catchAsync — Stripe expects specific response format
+//   try {
+//     const signature = req.headers['stripe-signature'] as string;
+//     const result = await PaymentService.handleStripeWebhook(req.body, signature);
+//     res.status(200).json(result);
+//   } catch (error: any) {
+//     console.error('Stripe webhook error:', error.message);
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
 const handleStripeWebhook = async (req: Request, res: Response) => {
-  // Webhook needs raw body for signature verification
-  // Do NOT wrap in catchAsync — Stripe expects specific response format
+  console.log("=== Webhook Hit ===");
+  console.log("Is Buffer:", Buffer.isBuffer(req.body));
+  console.log("Signature:", req.headers["stripe-signature"]);
+
   try {
-    const signature = req.headers['stripe-signature'] as string;
-    const result = await PaymentService.handleStripeWebhook(req.body, signature);
-    res.status(200).json(result);
-  } catch (error: any) {
-    console.error('Stripe webhook error:', error.message);
-    res.status(400).json({ error: error.message });
+    const result = await PaymentService.handleStripeWebhook(
+      req.body,
+      req.headers["stripe-signature"] as string
+    );
+    console.log("=== Webhook Success ===");
+    res.json(result);
+  } catch (err: any) {
+    console.error("=== Webhook Error ===", err.message);
+    res.status(400).json({ error: err.message });
   }
 };
 

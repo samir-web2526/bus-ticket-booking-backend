@@ -42,6 +42,8 @@ model PassengerProfile {
 
     userId           String    @unique
     gender           String?
+    nid              String?
+    address          String?
     dateOfBirth      DateTime?
     emergencyContact String?
 

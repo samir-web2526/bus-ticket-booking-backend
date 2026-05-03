@@ -231,9 +231,59 @@ const getMyBuses = async (
 
 };
 
+// const getBusById = async (busId: string) => {
+//   const result = await prisma.bus.findUnique({
+//     where: { id: busId, isDeleted: false },
+//     include: {
+//       operator: {
+//         select: {
+//           id: true,
+//           name: true,
+//           email: true,
+//           phone: true,
+//           profileImage: true,
+//         },
+//       },
+//       seats: {
+//         select: {
+//           id: true,
+//           number: true,
+//           type: true,
+//           row: true,
+//           column: true,
+//           price: true,
+//         },
+//       },
+//     },
+//   });
+
+//   const seatSummary = {
+//     VIP: result?.seats.filter((s) => s.type === SeatType.VIP).length || 0,
+//     DELUXE: result?.seats.filter((s) => s.type === SeatType.DELUXE).length || 0,
+//     STANDARD: result?.seats.filter((s) => s.type === SeatType.STANDARD).length || 0,
+//   };
+
+
+//   const vipSeat = result?.seats?.find((s) => s.type === SeatType.VIP);
+//   const deluxeSeat = result?.seats?.find((s) => s.type === SeatType.DELUXE);
+//   const standardSeat = result?.seats?.find((s) => s.type === SeatType.STANDARD);
+
+
+//   return {
+//     ...result,
+//     vipPrice: vipSeat?.price ?? null,
+//     deluxePrice: deluxeSeat?.price ?? null,
+//     standardPrice: standardSeat?.price ?? result?.pricePerSeat,
+//     seatSummary
+//   };
+// };
+
 const getBusById = async (busId: string) => {
-  const result = await prisma.bus.findUnique({
-    where: { id: busId, isDeleted: false },
+  const result = await prisma.bus.findFirst({
+    where: {
+      id: busId,
+      isDeleted: false,
+    },
     include: {
       operator: {
         select: {
@@ -257,13 +307,29 @@ const getBusById = async (busId: string) => {
     },
   });
 
+  if (!result) return null;
+
+  const vipSeats = result.seats.filter((s) => s.type === "VIP");
+  const deluxeSeats = result.seats.filter((s) => s.type === "DELUXE");
+  const standardSeats = result.seats.filter((s) => s.type === "STANDARD");
+
   const seatSummary = {
-    VIP: result?.seats.filter((s) => s.type === SeatType.VIP).length || 0,
-    DELUXE: result?.seats.filter((s) => s.type === SeatType.DELUXE).length || 0,
-    STANDARD: result?.seats.filter((s) => s.type === SeatType.STANDARD).length || 0,
+    VIP: vipSeats.length,
+    DELUXE: deluxeSeats.length,
+    STANDARD: standardSeats.length,
   };
 
-  return { ...result, seatSummary };
+  const vipPrice = vipSeats[0]?.price ?? null;
+  const deluxePrice = deluxeSeats[0]?.price ?? null;
+  const standardPrice = standardSeats[0]?.price ?? null;
+
+  return {
+    ...result,
+    seatSummary,
+    vipPrice,
+    deluxePrice,
+    standardPrice,
+  };
 };
 
 const updateBus = async (id: string, userId: string, role: UserRole, payload: any) => {

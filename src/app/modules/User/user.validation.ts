@@ -28,6 +28,11 @@ const updateUserByAdminValidationSchema = z.object({
     phone: z.string().optional(),
     profileImage: z.string().url().optional(),
     status: z.nativeEnum(UserStatus).optional(),
+    isVerified: z.boolean().optional(),
+    operatorProfile: z.object({
+      companyName: z.string().optional(),
+      address: z.string().optional(),
+    }).optional(),
   }),
 });
 

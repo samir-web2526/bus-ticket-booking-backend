@@ -133,8 +133,13 @@ const handleStripeWebhook = async (rawBody: Buffer, signature: string) => {
       const session = event.data.object as any;
       const bookingId = session.metadata?.bookingId;
 
+      // ✅ bookingId না থাকলে skip করুন (stripe trigger এর test event)
+      if (!bookingId) {
+        console.log("⚠️ No bookingId in metadata, skipping...");
+        break;
+      }
+
       try {
-        // Update payment status to PAID and booking status to CONFIRMED
         await prisma.$transaction(async (tx) => {
           await tx.payment.update({
             where: { stripeSessionId: session.id },
@@ -153,7 +158,7 @@ const handleStripeWebhook = async (rawBody: Buffer, signature: string) => {
         console.log(`✅ Payment confirmed for booking: ${bookingId}`);
       } catch (error: any) {
         console.error(`❌ Error updating payment/booking: ${error.message}`);
-        throw error; // This will trigger the 400 response in controller
+        throw error;
       }
       break;
     }

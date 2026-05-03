@@ -117,6 +117,8 @@ export const PassengerProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   gender: 'gender',
+  nid: 'nid',
+  address: 'address',
   dateOfBirth: 'dateOfBirth',
   emergencyContact: 'emergencyContact'
 } as const

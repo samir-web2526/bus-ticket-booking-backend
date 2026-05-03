@@ -26,4 +26,15 @@ export interface IUpdateUserByAdminPayload {
   phone?: string;
   profileImage?: string;
   status?: UserStatus;
+  isVerified?: boolean;
+  operatorProfile?: {  // Added operatorProfile and passengerProfile as optional
+    companyName?: string;
+    address?: string;
+    nid?: string;
+    tradeLicense?: string;
+  };
+  passengerProfile?: {
+    nid?: string;
+    address?: string;
+  };
 }

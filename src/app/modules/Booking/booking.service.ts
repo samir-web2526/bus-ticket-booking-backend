@@ -102,6 +102,7 @@ const getMyBookings = async (userId: string) => {
           route: true,
         },
       },
+      payment: true,
     },
   });
 
@@ -145,6 +146,7 @@ const getAllBookings = async (query: any) => {
           route: true,
         },
       },
+      payment: true,
     },
   });
 
@@ -278,6 +280,7 @@ const getBookingById = async (bookingId: string, userId: string, role: UserRole)
           route: true,
         },
       },
+      payment: true,
     },
   });
 

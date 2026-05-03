@@ -147,7 +147,7 @@ const getUserById = async (id: string) => {
 };
 
 const updateUser = async (id: string, payload: IUpdateUserByAdminPayload) => {
-  const { name, email, phone, profileImage, status: userStatus } = payload;
+  const { name, email, phone, profileImage, status: userStatus, isVerified } = payload;
   const user = await prisma.user.findUnique({
     where: { id, isDeleted: false },
     select: userSelectFields,
@@ -167,15 +167,31 @@ const updateUser = async (id: string, payload: IUpdateUserByAdminPayload) => {
       phone: phone,
       profileImage: profileImage,
       status: userStatus,
+      isVerified: isVerified
     },
     select: {
       ...userSelectFields,
-      operatorProfile: user.role === UserRole.OPERATOR,
-      passengerProfile: user.role === UserRole.PASSENGER,
+      operatorProfile: {
+        select: {
+          companyName: true,
+          tradeLicense: true,
+          nid: true,
+          address: true,
+        },
+      },
+      passengerProfile: {
+        select: {
+          nid: true,
+          address: true,
+        },
+      },
     },
 
   });
-  return result;
+  return {
+    success: true,
+    data: result
+  };
 };
 
 const deleteUser = async (id: string) => {

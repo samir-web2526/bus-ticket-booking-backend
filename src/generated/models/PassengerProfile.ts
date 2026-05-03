@@ -28,6 +28,8 @@ export type PassengerProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
   gender: string | null
+  nid: string | null
+  address: string | null
   dateOfBirth: Date | null
   emergencyContact: string | null
 }
@@ -36,6 +38,8 @@ export type PassengerProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   gender: string | null
+  nid: string | null
+  address: string | null
   dateOfBirth: Date | null
   emergencyContact: string | null
 }
@@ -44,6 +48,8 @@ export type PassengerProfileCountAggregateOutputType = {
   id: number
   userId: number
   gender: number
+  nid: number
+  address: number
   dateOfBirth: number
   emergencyContact: number
   _all: number
@@ -54,6 +60,8 @@ export type PassengerProfileMinAggregateInputType = {
   id?: true
   userId?: true
   gender?: true
+  nid?: true
+  address?: true
   dateOfBirth?: true
   emergencyContact?: true
 }
@@ -62,6 +70,8 @@ export type PassengerProfileMaxAggregateInputType = {
   id?: true
   userId?: true
   gender?: true
+  nid?: true
+  address?: true
   dateOfBirth?: true
   emergencyContact?: true
 }
@@ -70,6 +80,8 @@ export type PassengerProfileCountAggregateInputType = {
   id?: true
   userId?: true
   gender?: true
+  nid?: true
+  address?: true
   dateOfBirth?: true
   emergencyContact?: true
   _all?: true
@@ -151,6 +163,8 @@ export type PassengerProfileGroupByOutputType = {
   id: string
   userId: string
   gender: string | null
+  nid: string | null
+  address: string | null
   dateOfBirth: Date | null
   emergencyContact: string | null
   _count: PassengerProfileCountAggregateOutputType | null
@@ -180,6 +194,8 @@ export type PassengerProfileWhereInput = {
   id?: Prisma.StringFilter<"PassengerProfile"> | string
   userId?: Prisma.StringFilter<"PassengerProfile"> | string
   gender?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
+  nid?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
+  address?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableFilter<"PassengerProfile"> | Date | string | null
   emergencyContact?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -189,6 +205,8 @@ export type PassengerProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
+  nid?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   emergencyContact?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -201,6 +219,8 @@ export type PassengerProfileWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PassengerProfileWhereInput[]
   NOT?: Prisma.PassengerProfileWhereInput | Prisma.PassengerProfileWhereInput[]
   gender?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
+  nid?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
+  address?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableFilter<"PassengerProfile"> | Date | string | null
   emergencyContact?: Prisma.StringNullableFilter<"PassengerProfile"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -210,6 +230,8 @@ export type PassengerProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
+  nid?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   emergencyContact?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PassengerProfileCountOrderByAggregateInput
@@ -224,6 +246,8 @@ export type PassengerProfileScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"PassengerProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"PassengerProfile"> | string
   gender?: Prisma.StringNullableWithAggregatesFilter<"PassengerProfile"> | string | null
+  nid?: Prisma.StringNullableWithAggregatesFilter<"PassengerProfile"> | string | null
+  address?: Prisma.StringNullableWithAggregatesFilter<"PassengerProfile"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"PassengerProfile"> | Date | string | null
   emergencyContact?: Prisma.StringNullableWithAggregatesFilter<"PassengerProfile"> | string | null
 }
@@ -231,6 +255,8 @@ export type PassengerProfileScalarWhereWithAggregatesInput = {
 export type PassengerProfileCreateInput = {
   id?: string
   gender?: string | null
+  nid?: string | null
+  address?: string | null
   dateOfBirth?: Date | string | null
   emergencyContact?: string | null
   user: Prisma.UserCreateNestedOneWithoutPassengerProfileInput
@@ -240,6 +266,8 @@ export type PassengerProfileUncheckedCreateInput = {
   id?: string
   userId: string
   gender?: string | null
+  nid?: string | null
+  address?: string | null
   dateOfBirth?: Date | string | null
   emergencyContact?: string | null
 }
@@ -247,6 +275,8 @@ export type PassengerProfileUncheckedCreateInput = {
 export type PassengerProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   emergencyContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutPassengerProfileNestedInput
@@ -256,6 +286,8 @@ export type PassengerProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   emergencyContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -264,6 +296,8 @@ export type PassengerProfileCreateManyInput = {
   id?: string
   userId: string
   gender?: string | null
+  nid?: string | null
+  address?: string | null
   dateOfBirth?: Date | string | null
   emergencyContact?: string | null
 }
@@ -271,6 +305,8 @@ export type PassengerProfileCreateManyInput = {
 export type PassengerProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   emergencyContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -279,6 +315,8 @@ export type PassengerProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   emergencyContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -292,6 +330,8 @@ export type PassengerProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  nid?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   emergencyContact?: Prisma.SortOrder
 }
@@ -300,6 +340,8 @@ export type PassengerProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  nid?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   emergencyContact?: Prisma.SortOrder
 }
@@ -308,6 +350,8 @@ export type PassengerProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   gender?: Prisma.SortOrder
+  nid?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   emergencyContact?: Prisma.SortOrder
 }
@@ -351,6 +395,8 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 export type PassengerProfileCreateWithoutUserInput = {
   id?: string
   gender?: string | null
+  nid?: string | null
+  address?: string | null
   dateOfBirth?: Date | string | null
   emergencyContact?: string | null
 }
@@ -358,6 +404,8 @@ export type PassengerProfileCreateWithoutUserInput = {
 export type PassengerProfileUncheckedCreateWithoutUserInput = {
   id?: string
   gender?: string | null
+  nid?: string | null
+  address?: string | null
   dateOfBirth?: Date | string | null
   emergencyContact?: string | null
 }
@@ -381,6 +429,8 @@ export type PassengerProfileUpdateToOneWithWhereWithoutUserInput = {
 export type PassengerProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   emergencyContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -388,6 +438,8 @@ export type PassengerProfileUpdateWithoutUserInput = {
 export type PassengerProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   emergencyContact?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -398,6 +450,8 @@ export type PassengerProfileSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   userId?: boolean
   gender?: boolean
+  nid?: boolean
+  address?: boolean
   dateOfBirth?: boolean
   emergencyContact?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -407,6 +461,8 @@ export type PassengerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   userId?: boolean
   gender?: boolean
+  nid?: boolean
+  address?: boolean
   dateOfBirth?: boolean
   emergencyContact?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -416,6 +472,8 @@ export type PassengerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   userId?: boolean
   gender?: boolean
+  nid?: boolean
+  address?: boolean
   dateOfBirth?: boolean
   emergencyContact?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -425,11 +483,13 @@ export type PassengerProfileSelectScalar = {
   id?: boolean
   userId?: boolean
   gender?: boolean
+  nid?: boolean
+  address?: boolean
   dateOfBirth?: boolean
   emergencyContact?: boolean
 }
 
-export type PassengerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "gender" | "dateOfBirth" | "emergencyContact", ExtArgs["result"]["passengerProfile"]>
+export type PassengerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "gender" | "nid" | "address" | "dateOfBirth" | "emergencyContact", ExtArgs["result"]["passengerProfile"]>
 export type PassengerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -449,6 +509,8 @@ export type $PassengerProfilePayload<ExtArgs extends runtime.Types.Extensions.In
     id: string
     userId: string
     gender: string | null
+    nid: string | null
+    address: string | null
     dateOfBirth: Date | null
     emergencyContact: string | null
   }, ExtArgs["result"]["passengerProfile"]>
@@ -878,6 +940,8 @@ export interface PassengerProfileFieldRefs {
   readonly id: Prisma.FieldRef<"PassengerProfile", 'String'>
   readonly userId: Prisma.FieldRef<"PassengerProfile", 'String'>
   readonly gender: Prisma.FieldRef<"PassengerProfile", 'String'>
+  readonly nid: Prisma.FieldRef<"PassengerProfile", 'String'>
+  readonly address: Prisma.FieldRef<"PassengerProfile", 'String'>
   readonly dateOfBirth: Prisma.FieldRef<"PassengerProfile", 'DateTime'>
   readonly emergencyContact: Prisma.FieldRef<"PassengerProfile", 'String'>
 }
