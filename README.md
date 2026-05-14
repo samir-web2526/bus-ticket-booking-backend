@@ -1,272 +1,215 @@
-# 🚌 BusHub — Backend API
+# BusHub Backend
 
-RESTful API server for the BusHub online bus ticket booking platform. Built with Node.js, Express, Prisma, and PostgreSQL.
-
----
-
-## 🌐 Live URLs
-
-| Service | URL |
-|--------|-----|
-| Backend API | https://bus-ticket-booking-backend-six.vercel.app |
-| Frontend App | https://bus-ticket-booking-frontend-six.vercel.app |
+A modern, robust REST API for the BusHub platform, enabling seamless bus ticket bookings, route management, and payment processing.
 
 ---
 
-## ✨ Features
+## 📖 Table of Contents
 
-- JWT-based authentication with access & refresh tokens (HTTP-only cookies)
-- Role-based access control — ADMIN, OPERATOR, PASSENGER
-- Bus management — operators can create and manage their own buses
-- Route management — admin creates routes, operators assign schedules
-- Schedule management — operators create schedules for their own buses only
-- Booking system — passengers can book seats on available schedules
-- Stripe payment integration
-- Automatic past schedule filtering (only future schedules shown publicly)
-- Request validation with Zod
-- Pagination, filtering, and sorting on all list endpoints
-
----
-
-## 🛠️ Technologies Used
-
-| Technology | Purpose |
-|-----------|---------|
-| Node.js | Runtime environment |
-| Express.js | Web framework |
-| TypeScript | Type safety |
-| Prisma ORM | Database ORM |
-| PostgreSQL | Relational database |
-| JWT | Authentication tokens |
-| bcrypt | Password hashing |
-| Stripe | Payment processing |
-| Zod | Request validation |
-| node-cron | Scheduled tasks (auto-complete past schedules) |
-| cookie-parser | HTTP-only cookie handling |
-| cors | Cross-origin resource sharing |
+- [About The Project](#about-the-project)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation & Setup](#installation--setup)
+- [Environment Variables](#environment-variables)
+- [Folder Structure](#folder-structure)
+- [Dependencies](#dependencies)
+- [Live API](#live-api)
+- [Contact](#contact)
 
 ---
 
-## 🗂️ Project Structure
+## About The Project
 
-```
-src/
-├── app/
-│   ├── modules/
-│   │   ├── auth/
-│   │   │   ├── auth.controller.ts
-│   │   │   ├── auth.service.ts
-│   │   │   ├── auth.route.ts
-│   │   │   └── auth.validation.ts
-│   │   ├── user/
-│   │   ├── bus/
-│   │   ├── route/
-│   │   ├── schedule/
-│   │   └── booking/
-│   ├── middlewares/
-│   │   ├── auth.ts           # Role-based auth guard
-│   │   ├── validateRequest.ts
-│   │   └── globalErrorHandler.ts
-│   ├── utils/
-│   │   ├── AppError.ts
-│   │   ├── catchAsync.ts
-│   │   ├── sendResponse.ts
-│   │   └── paginationHelper.ts
-│   └── routes/
-│       └── index.ts          # All routes registered here
-├── prisma/
-│   └── schema.prisma         # Database schema
-├── app.ts
-└── server.ts
-```
+BusHub Backend is a comprehensive RESTful API built to power the BusHub online bus ticket booking platform. It handles secure user authentication, role-based access control, database interactions for passengers and operators, bus and route management, and payment processing through Stripe. The architecture is modular and scalable, utilizing Express.js, TypeScript, and Prisma ORM.
 
 ---
 
-## ⚙️ Setup Instructions
+## Features
 
-### Prerequisites
-- Node.js v18+
-- PostgreSQL database
+- Role-based authorization (Admin, Operator, Passenger)
+- Secure authentication with JWT & HTTP-only cookies
+- Advanced database management using Prisma ORM with PostgreSQL
+- Secure payment integration via Stripe Webhooks
+- Comprehensive bus, route, and schedule management
+- Seat booking and lock management
+- Centralized error handling and API response formatting
+- Request validation using Zod
+- Clean architecture and modular folder structure
 
-### Installation
+---
+
+## Tech Stack
+
+### Core
+- Node.js
+- Express.js
+- TypeScript
+
+### Database & ORM
+- PostgreSQL
+- Prisma
+
+### Authentication & Security
+- JSON Web Tokens (JWT)
+- bcrypt (Password Hashing)
+- cors
+- cookie-parser
+
+### Utilities & Validation
+- Zod
+- Stripe
+
+---
+
+## Installation & Setup
+
+### Clone the repository
 
 ```bash
-# 1. Clone the repository
-git clone <your-backend-repo-url>
-cd backend
-
-# 2. Install dependencies
-npm install
-
-# 3. Create environment file
-cp .env.example .env
+git clone https://github.com/samir-web2526/bus-ticket-booking-backend.git
 ```
 
-### Environment Variables
+### Navigate to the project folder
 
-Create a `.env` file in the root:
+```bash
+cd bus-ticket-booking-backend
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Setup environment variables
+
+Create a `.env` file in the root directory and add the required environment variables (see [Environment Variables](#environment-variables) section).
+
+### Generate Prisma Client & Run Migrations
+
+```bash
+npm run generate
+npm run migrate
+```
+
+### Run the development server
+
+```bash
+npm run dev
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file and configure the following variables:
 
 ```env
-# Database
-DATABASE_URL="postgresql://user:password@localhost:5432/bushub"
-
-# JWT
-JWT_ACCESS_SECRET="your_access_secret_key"
-JWT_REFRESH_SECRET="your_refresh_secret_key"
-JWT_ACCESS_EXPIRES_IN="15m"
-JWT_REFRESH_EXPIRES_IN="7d"
-
-# Stripe
-STRIPE_SECRET_KEY="sk_test_..."
-STRIPE_WEBHOOK_SECRET="whsec_..."
-
-# App
-PORT=5000
-CLIENT_URL="http://localhost:3000"
+# Server
 NODE_ENV="development"
+PORT=5000
+FRONTEND_URL="http://localhost:3000"
+
+# Database
+DATABASE_URL="postgresql://your_username:your_password@localhost:5432/your_database_name"
+
+# JWT Auth
+ACCESS_TOKEN_SECRET="your_access_token_secret"
+ACCESS_TOKEN_EXPIRES_IN="86400000"
+REFRESH_TOKEN_SECRET="your_refresh_token_secret"
+REFRESH_TOKEN_EXPIRES_IN="604800000"
+
+# Admin Seed Info
+ADMIN_EMAIL="admin@gmail.com"
+ADMIN_PASSWORD="securepassword"
+ADMIN_NAME="Admin"
+ADMIN_PHONE="0123456789"
+
+# Stripe Payment
+STRIPE_SECRET_KEY="your_stripe_secret_key"
+STRIPE_WEBHOOK_SECRET="your_stripe_webhook_secret"
 ```
 
-### Database Setup
+| Variable Name             | Description                                    |
+| ------------------------- | ---------------------------------------------- |
+| NODE_ENV                  | Environment (development/production)           |
+| PORT                      | Port number for the server                     |
+| DATABASE_URL              | PostgreSQL database connection URL             |
+| FRONTEND_URL              | Allowed frontend origin for CORS               |
+| ACCESS_TOKEN_SECRET       | Secret key for signing access tokens           |
+| REFRESH_TOKEN_SECRET      | Secret key for signing refresh tokens          |
+| STRIPE_SECRET_KEY         | Secret key for Stripe API                      |
+| STRIPE_WEBHOOK_SECRET     | Secret key for verifying Stripe webhooks       |
 
-```bash
-# Run migrations
-npx prisma migrate dev
-
-# Generate Prisma client
-npx prisma generate
-
-# (Optional) Seed database
-npx prisma db seed
-```
-
-### Running the Server
-
-```bash
-# Development
-npm run dev
-
-# Production build
-npm run build
-npm start
-```
-
-Server will run at `http://localhost:5000`
+*(Only key variables described, see `.env` block for full list)*
 
 ---
 
-## 📡 API Endpoints
+## Folder Structure
 
-### Auth
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/api/v1/auth/register` | Public | Register new user |
-| POST | `/api/v1/auth/login` | Public | Login and get tokens |
-| POST | `/api/v1/auth/logout` | Auth | Logout and clear cookies |
-| POST | `/api/v1/auth/refresh-token` | Public | Refresh access token |
-
-### Users
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| GET | `/api/v1/users` | Admin | Get all users |
-| GET | `/api/v1/users/me` | Auth | Get current user profile |
-| PATCH | `/api/v1/users/me` | Auth | Update profile |
-
-### Buses
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| GET | `/api/v1/buses` | Public | Get all buses |
-| GET | `/api/v1/buses/my` | Operator | Get operator's own buses |
-| GET | `/api/v1/buses/:id` | Public | Get bus by ID |
-| POST | `/api/v1/buses` | Operator | Create a bus |
-| PATCH | `/api/v1/buses/:id` | Operator | Update a bus |
-| DELETE | `/api/v1/buses/:id` | Operator/Admin | Delete a bus |
-
-### Routes
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| GET | `/api/v1/routes` | Public | Get routes with future schedules |
-| GET | `/api/v1/routes/dropdown` | Operator | Get all routes for dropdown |
-| GET | `/api/v1/routes/:id` | Public | Get route by ID |
-| POST | `/api/v1/routes` | Admin | Create a route |
-| PATCH | `/api/v1/routes/:id` | Admin | Update a route |
-| DELETE | `/api/v1/routes/:id` | Admin | Delete a route |
-
-### Schedules
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| GET | `/api/v1/schedules` | Public | Search schedules with filters |
-| GET | `/api/v1/schedules/:id` | Public | Get schedule by ID |
-| POST | `/api/v1/schedules` | Operator | Create a schedule (own bus only) |
-| PATCH | `/api/v1/schedules/:id` | Operator | Update a schedule |
-| DELETE | `/api/v1/schedules/:id` | Operator/Admin | Delete a schedule |
-
-### Bookings
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| GET | `/api/v1/bookings/my` | Passenger | Get own bookings |
-| GET | `/api/v1/bookings` | Admin | Get all bookings |
-| POST | `/api/v1/bookings` | Passenger | Create a booking |
-| PATCH | `/api/v1/bookings/:id` | Admin | Update booking status |
-
-### Payments
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/api/v1/payments/create-session` | Passenger | Create Stripe checkout session |
-| POST | `/api/v1/payments/webhook` | Stripe | Handle Stripe webhook events |
-
----
-
-## 🔐 Authentication
-
-This API uses **JWT with HTTP-only cookies**.
-
-- `accessToken` — expires in 15 minutes
-- `refreshToken` — expires in 7 days
-
-All protected routes require a valid `accessToken` cookie. Use the `/auth/refresh-token` endpoint to get a new access token when it expires.
-
-### Role Hierarchy
-
-```
-ADMIN      → Full access to everything
-OPERATOR   → Manage own buses and schedules
-PASSENGER  → Search, book, and pay for tickets
+```plaintext
+bus-ticket-booking-backend/
+│
+├── prisma/
+│   ├── schema/
+│   └── migrations/
+│
+├── src/
+│   ├── app/
+│   │   ├── errorHelpers/
+│   │   ├── middlewares/
+│   │   ├── modules/
+│   │   │   ├── Auth/
+│   │   │   ├── Booking/
+│   │   │   ├── Bus/
+│   │   │   ├── Payment/
+│   │   │   ├── Route/
+│   │   │   ├── Schedule/
+│   │   │   ├── Seat/
+│   │   │   ├── SeatLock/
+│   │   │   └── User/
+│   │   ├── routes/
+│   │   └── utils/
+│   │
+│   ├── config/
+│   ├── seedAdmin/
+│   └── server.ts
+│
+├── .env
+├── package.json
+└── tsconfig.json
 ```
 
 ---
 
-## 🛡️ Business Rules
-
-- Operators can **only** create schedules for **their own buses**
-- Departure time must be **in the future**
-- Arrival time must be **after departure time**
-- Past schedules are **automatically hidden** from public routes
-- Schedules are marked `completed` automatically after arrival time passes (via cron job)
-
----
-
-## 🚀 Deployment
-
-Deployed on **Vercel** with a cloud PostgreSQL database.
-
-### Required for deployment
-- Set all environment variables in Vercel dashboard
-- Add `postinstall` script for Prisma client generation:
+## Dependencies
 
 ```json
-"scripts": {
-  "postinstall": "prisma generate"
+"dependencies": {
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "http-status": "^2.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.20.0",
+    "stripe": "^22.1.0",
+    "zod": "^4.3.6"
 }
 ```
 
 ---
 
-## 👨‍💻 Author
+## Live API
 
-Developed as part of a full-stack web development assignment.
+🔗 Base URL: https://bus-ticket-booking-backend-six.vercel.app/
 
 ---
 
-## 📄 License
+## Contact
 
-This project is for educational purposes only.
+- Portfolio: https://portfolio-kappa-weld-92.vercel.app/
+- Email: baishnabsamir26@gmail.com
